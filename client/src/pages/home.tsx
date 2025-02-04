@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { useLocation, useRoute } from "wouter";
 import AddressInput from "@/components/AddressInput";
 import TokenList from "@/components/TokenList";
 import { Card, CardContent } from "@/components/ui/card";
@@ -8,26 +9,19 @@ import { useToast } from "@/hooks/use-toast";
 import { getTokenBalances } from "@/lib/web3";
 
 export default function Home() {
-  const [address, setAddress] = useState("");
+  const [, params] = useRoute("/address/:address");
+  const [, setLocation] = useLocation();
+  const address = params?.address || "";
   const { toast } = useToast();
 
-  const { data: balances, isLoading, error, refetch } = useQuery({
+  const { data: balances, isLoading, error } = useQuery({
     queryKey: ['balances', address],
     queryFn: () => getTokenBalances(address),
-    enabled: false
+    enabled: Boolean(address)
   });
 
   const handleSubmit = async (addr: string) => {
-    setAddress(addr);
-    try {
-      await refetch();
-    } catch (err) {
-      toast({
-        title: "Error",
-        description: "Failed to fetch token balances",
-        variant: "destructive"
-      });
-    }
+    setLocation(`/address/${addr}`);
   };
 
   return (
@@ -44,7 +38,7 @@ export default function Home() {
 
         <Card className="border-primary/20">
           <CardContent className="pt-6">
-            <AddressInput onSubmit={handleSubmit} isLoading={isLoading} />
+            <AddressInput onSubmit={handleSubmit} isLoading={isLoading} initialAddress={address} />
           </CardContent>
         </Card>
 

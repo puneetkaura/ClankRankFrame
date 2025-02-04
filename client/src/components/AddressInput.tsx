@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
@@ -6,10 +6,15 @@ import { Loader2 } from "lucide-react";
 interface AddressInputProps {
   onSubmit: (address: string) => void;
   isLoading: boolean;
+  initialAddress?: string;
 }
 
-export default function AddressInput({ onSubmit, isLoading }: AddressInputProps) {
-  const [address, setAddress] = useState("0x862687EafbA7a988148Ef563F830E8B66fdDFD8b");
+export default function AddressInput({ onSubmit, isLoading, initialAddress = "" }: AddressInputProps) {
+  const [address, setAddress] = useState(initialAddress);
+
+  useEffect(() => {
+    setAddress(initialAddress);
+  }, [initialAddress]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
