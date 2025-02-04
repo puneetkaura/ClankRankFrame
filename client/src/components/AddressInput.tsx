@@ -9,7 +9,7 @@ interface AddressInputProps {
 }
 
 export default function AddressInput({ onSubmit, isLoading }: AddressInputProps) {
-  const [address, setAddress] = useState("");
+  const [address, setAddress] = useState("0x862687EafbA7a988148Ef563F830E8B66fdDFD8b");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

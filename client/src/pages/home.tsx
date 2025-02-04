@@ -35,7 +35,7 @@ export default function Home() {
       <div className="max-w-7xl mx-auto space-y-8">
         <div className="text-center space-y-4">
           <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-            Token Analytics Dashboard
+            ClankRank Dashboard
           </h1>
           <p className="text-muted-foreground text-lg">
             Analyze EVM address token holdings and rankings
