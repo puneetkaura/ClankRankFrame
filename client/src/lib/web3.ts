@@ -36,8 +36,11 @@ export async function getTokenBalances(address: string): Promise<TokenBalance[]>
   }
 
   const balances: TokenBalance[] = [];
+  const tokenAddresses = Object.keys(TOP_CLANKER_HOLDING_THRESHOLD);
 
-  for (const [tokenAddress, token] of Object.entries(TOP_CLANKER_HOLDING_THRESHOLD)) {
+  // Process tokens in the order they appear in TOP_CLANKER_HOLDING_THRESHOLD
+  for (const tokenAddress of tokenAddresses) {
+    const token = TOP_CLANKER_HOLDING_THRESHOLD[tokenAddress];
     try {
       // Create contract instance
       const contract = new web3.eth.Contract(ERC20_ABI, tokenAddress);
