@@ -9,11 +9,13 @@ interface AddressInputProps {
   initialAddress?: string;
 }
 
-export default function AddressInput({ onSubmit, isLoading, initialAddress = "" }: AddressInputProps) {
+export default function AddressInput({ onSubmit, isLoading, initialAddress = "0x862687EafbA7a988148Ef563F830E8B66fdDFD8b" }: AddressInputProps) {
   const [address, setAddress] = useState(initialAddress);
 
   useEffect(() => {
-    setAddress(initialAddress);
+    if (initialAddress && initialAddress !== "0x862687EafbA7a988148Ef563F830E8B66fdDFD8b") {
+      setAddress(initialAddress);
+    }
   }, [initialAddress]);
 
   const handleSubmit = (e: React.FormEvent) => {
