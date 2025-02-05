@@ -49,13 +49,13 @@ export async function getTokenBalances(address: string): Promise<TokenBalance[]>
       const adjustedBalance = balance / BigInt(10 ** token.decimals);
 
       const ranking = {
-        isTop1000: adjustedBalance >= BigInt(token.amt_for_1000_top_holder),
-        isTop500: adjustedBalance >= BigInt(token.amt_for_500_top_holder),
-        isTop250: adjustedBalance >= BigInt(token.amt_for_250_top_holder),
-        isTop100: adjustedBalance >= BigInt(token.amt_for_100_top_holder),
-        isTop50: adjustedBalance >= BigInt(token.amt_for_50_top_holder),
-        isTop25: adjustedBalance >= BigInt(token.amt_for_25_top_holder),
-        isTop10: adjustedBalance >= BigInt(token.amt_for_10_top_holder)
+        isTop1000: adjustedBalance > BigInt(token.amt_for_1000_top_holder),
+        isTop500: adjustedBalance > BigInt(token.amt_for_500_top_holder),
+        isTop250: adjustedBalance > BigInt(token.amt_for_250_top_holder),
+        isTop100: adjustedBalance > BigInt(token.amt_for_100_top_holder),
+        isTop50: adjustedBalance > BigInt(token.amt_for_50_top_holder),
+        isTop25: adjustedBalance > BigInt(token.amt_for_25_top_holder),
+        isTop10: adjustedBalance > BigInt(token.amt_for_10_top_holder)
       };
 
       balances.push({
