@@ -8,11 +8,19 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
 import { getTokenBalances } from "@/lib/web3";
 
+const DEFAULT_ADDRESS = "0x862687EafbA7a988148Ef563F830E8B66fdDFD8b";
+
 export default function Home() {
   const [, params] = useRoute("/address/:address");
   const [, setLocation] = useLocation();
-  const address = params?.address || "";
+  const address = params?.address || DEFAULT_ADDRESS;
   const { toast } = useToast();
+
+  useEffect(() => {
+    if (!params?.address) {
+      setLocation(`/address/${DEFAULT_ADDRESS}`);
+    }
+  }, [params?.address, setLocation]);
 
   const { data: balances, isLoading, error } = useQuery({
     queryKey: ['balances', address],

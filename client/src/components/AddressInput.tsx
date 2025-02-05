@@ -9,18 +9,18 @@ interface AddressInputProps {
   initialAddress?: string;
 }
 
-export default function AddressInput({ onSubmit, isLoading, initialAddress = "0x862687EafbA7a988148Ef563F830E8B66fdDFD8b" }: AddressInputProps) {
+export default function AddressInput({ onSubmit, isLoading, initialAddress }: AddressInputProps) {
   const [address, setAddress] = useState(initialAddress);
 
   useEffect(() => {
-    if (initialAddress && initialAddress !== "0x862687EafbA7a988148Ef563F830E8B66fdDFD8b") {
+    if (initialAddress) {
       setAddress(initialAddress);
     }
   }, [initialAddress]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (address.trim()) {
+    if (address?.trim()) {
       onSubmit(address.trim());
     }
   };
@@ -29,12 +29,12 @@ export default function AddressInput({ onSubmit, isLoading, initialAddress = "0x
     <form onSubmit={handleSubmit} className="flex gap-2">
       <Input
         placeholder="Enter EVM address (0x...)"
-        value={address}
+        value={address || ""}
         onChange={(e) => setAddress(e.target.value)}
         className="flex-1"
         disabled={isLoading}
       />
-      <Button type="submit" disabled={!address.trim() || isLoading}>
+      <Button type="submit" disabled={!address?.trim() || isLoading}>
         {isLoading ? (
           <>
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
