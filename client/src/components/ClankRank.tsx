@@ -48,15 +48,15 @@ export default function ClankRank({
                 {/* Rank Title and Token Count */}
                 <div className="mb-4">
                   <h3 className="text-2xl font-bold text-white">{title}</h3>
-                  {!isLoading && (
-                    <p className="text-sm text-white/80 mt-1">
-                      {tokenCount > 0 ? (
-                        `Holding ${tokenCount} token${tokenCount !== 1 ? 's' : ''}`
-                      ) : (
-                        "No tokens yet"
-                      )}
-                    </p>
-                  )}
+                  <p className="text-sm text-white/80 mt-1">
+                    {isLoading ? (
+                      <span className="animate-pulse">Loading tokens...</span>
+                    ) : tokenCount > 0 ? (
+                      `Holding ${tokenCount} token${tokenCount !== 1 ? 's' : ''}`
+                    ) : (
+                      "No tokens yet"
+                    )}
+                  </p>
                 </div>
 
                 {/* User Info */}

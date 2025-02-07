@@ -37,6 +37,7 @@ export default function FidPage() {
   });
 
   const error = userError || balancesError;
+  const isLoading = isLoadingUser || isLoadingBalances;
 
   if (isLoadingUser) {
     return (
@@ -81,7 +82,7 @@ export default function FidPage() {
     );
   }
 
-  if (!userInfo) {
+  if (!userInfo || isLoading) {
     return null;
   }
 
