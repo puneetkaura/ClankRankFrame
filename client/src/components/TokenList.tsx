@@ -1,5 +1,5 @@
 import TokenCard from "./TokenCard";
-import type { TokenBalance } from "@/lib/web3";
+import type { TokenBalance } from "@/lib/tokenService";
 
 interface TokenListProps {
   balances: TokenBalance[];

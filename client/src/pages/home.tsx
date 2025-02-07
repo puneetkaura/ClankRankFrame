@@ -6,7 +6,7 @@ import TokenList from "@/components/TokenList";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
-import { getTokenBalances } from "@/lib/web3";
+import { getClankerTokenInfoForAddress } from "@/lib/tokenService";
 
 const DEFAULT_ADDRESS = "0x862687EafbA7a988148Ef563F830E8B66fdDFD8b";
 
@@ -24,7 +24,7 @@ export default function Home() {
 
   const { data: balances, isLoading, error } = useQuery({
     queryKey: ['balances', address],
-    queryFn: () => getTokenBalances(address),
+    queryFn: () => getClankerTokenInfoForAddress(address),
     enabled: Boolean(address)
   });
 

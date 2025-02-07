@@ -2,7 +2,7 @@ import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ExternalLink } from "lucide-react";
 import { formatBalance, getDexscreenerUrl } from "@/lib/formatters";
-import type { TokenBalance } from "@/lib/web3";
+import type { TokenBalance } from "@/lib/tokenService";
 
 interface TokenCardProps {
   token: TokenBalance;
@@ -22,7 +22,16 @@ export default function TokenCard({ token }: TokenCardProps) {
   return (
     <Card className="group hover:border-primary/50 transition-colors duration-300">
       <CardHeader className="flex flex-row items-center justify-between">
-        <h3 className="text-lg font-semibold">{token.name}</h3>
+        <div className="flex items-center gap-2">
+          {token.img_url && (
+            <img 
+              src={token.img_url} 
+              alt={token.name} 
+              className="w-6 h-6 rounded-full"
+            />
+          )}
+          <h3 className="text-lg font-semibold">{token.name}</h3>
+        </div>
         <a
           href={getDexscreenerUrl(token.address)}
           target="_blank"
