@@ -41,7 +41,7 @@ export default function FidPage() {
           Baseedge Clanker Rank
         </h1>
 
-        {userInfo && (
+        {userInfo ? (
           <Card className="max-w-xl mx-auto bg-white/10 border-none backdrop-blur-sm">
             <CardContent className="p-6">
               <div className="flex flex-col items-center gap-4">
@@ -62,50 +62,42 @@ export default function FidPage() {
                     className="w-14 h-14 rounded-full border-2 border-white/20"
                   />
                   <div className="text-left">
-                    <h2 className="text-lg font-bold text-white">{userInfo.display_name}</h2>
-                    <p className="text-sm text-white/80">@{userInfo.username}</p>
-                  </div>
-                </div>
-
-                {/* Following/Followers */}
-                <div className="flex gap-6 text-white/90 text-xs">
-                  <div className="flex items-center gap-1">
-                    <Users className="w-3 h-3" />
-                    <div>
-                      <p className="font-medium">{userInfo.follower_count.toLocaleString()}</p>
-                      <p className="text-white/70">Followers</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <UserCheck className="w-3 h-3" />
-                    <div>
-                      <p className="font-medium">{userInfo.following_count.toLocaleString()}</p>
-                      <p className="text-white/70">Following</p>
+                    <h2 className="text-lg font-bold text-white">
+                      {userInfo.display_name} <span className="font-normal text-white/80">(@{userInfo.username})</span>
+                    </h2>
+                    {/* Following/Followers */}
+                    <div className="flex gap-6 text-white/90 text-xs mt-1">
+                      <div className="flex items-center gap-1">
+                        <Users className="w-3 h-3" />
+                        <span className="font-medium">{userInfo.follower_count.toLocaleString()}</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <UserCheck className="w-3 h-3" />
+                        <span className="font-medium">{userInfo.following_count.toLocaleString()}</span>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </CardContent>
           </Card>
-        )}
-
-        {isLoading && (
+        ) : isLoadingUser ? (
           <Card className="max-w-xl mx-auto bg-white/10 border-none backdrop-blur-sm">
             <CardContent className="p-6">
-              <div className="flex flex-col items-center gap-4">
+              <div className="flex items-center gap-4">
                 <Skeleton className="h-14 w-14 rounded-full" />
-                <div>
-                  <Skeleton className="h-6 w-36 mb-2" />
-                  <Skeleton className="h-4 w-24" />
+                <div className="space-y-2">
+                  <Skeleton className="h-5 w-48" />
+                  <Skeleton className="h-4 w-32" />
                 </div>
               </div>
             </CardContent>
           </Card>
-        )}
+        ) : null}
 
         {/* Token List */}
-        {isLoading ? (
-          <TokenList balances={[]} address={verifiedAddress || ''} isLoading={true} />
+        {isLoadingBalances && verifiedAddress ? (
+          <TokenList balances={[]} address={verifiedAddress} isLoading={true} />
         ) : balances && verifiedAddress ? (
           <TokenList balances={balances} address={verifiedAddress} isLoading={false} />
         ) : null}

@@ -30,6 +30,14 @@ export default function TokenCard({ token }: TokenCardProps) {
     >
       <Card className="bg-white/10 border-none backdrop-blur-sm hover:bg-white/20 transition-colors duration-300">
         <CardHeader className="space-y-3 p-4">
+          {highestRank && (
+            <Badge 
+              variant="secondary" 
+              className="w-fit mx-auto px-2 py-0.5 bg-primary/20 text-primary-foreground border-none text-[10px] font-medium"
+            >
+              {highestRank}
+            </Badge>
+          )}
           <div className="flex flex-col items-center text-center gap-2">
             {token.img_url && (
               <img 
@@ -47,11 +55,6 @@ export default function TokenCard({ token }: TokenCardProps) {
               <p className="font-bold text-white text-lg">{formatBalance(token.balance)}</p>
             </div>
           </div>
-          {highestRank && (
-            <Badge variant="secondary" className="w-full justify-center bg-white/20 text-white border-none text-xs">
-              {highestRank}
-            </Badge>
-          )}
         </CardHeader>
       </Card>
     </a>
