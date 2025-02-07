@@ -138,16 +138,28 @@ export async function getClankerTokenInfoForAddress(
       const token = TOP_CLANKER_HOLDING_THRESHOLD[tokenAddress];
       const result = results[tokenAddress];
 
+      // Debug logging for balance conversion
+      console.log(`Token ${token.name} raw result:`, result?.callsReturnContext[0]?.returnValues);
+
       // Safe balance conversion
       let balanceStr = result?.callsReturnContext[0]?.returnValues[0]?.hex || "0x0";
+      console.log(`Token ${token.name} hex balance:`, balanceStr);
+
       if (!balanceStr.startsWith('0x')) {
         balanceStr = '0x' + balanceStr;
       }
 
       try {
+        // Additional logging for balance conversion process
+        console.log(`Token ${token.name} formatted balance string:`, balanceStr);
         const balance = BigInt(balanceStr);
+        console.log(`Token ${token.name} BigInt balance:`, balance.toString());
+
         const divisor = BigInt(10 ** token.decimals);
+        console.log(`Token ${token.name} divisor:`, divisor.toString());
+
         const adjustedBalance = balance / divisor;
+        console.log(`Token ${token.name} adjusted balance:`, adjustedBalance.toString());
 
         // Calculate rankings after the balance conversion
         return {
@@ -158,15 +170,22 @@ export async function getClankerTokenInfoForAddress(
           ranking: {
             isTop1000: token.amt_for_1000_top_holder ? adjustedBalance >= BigInt(token.amt_for_1000_top_holder) : false,
             isTop500: token.amt_for_500_top_holder ? adjustedBalance >= BigInt(token.amt_for_500_top_holder) : false,
-            isTop250: adjustedBalance >= BigInt(token.amt_for_250_top_holder),
-            isTop100: adjustedBalance >= BigInt(token.amt_for_100_top_holder),
-            isTop50: adjustedBalance >= BigInt(token.amt_for_50_top_holder),
-            isTop25: adjustedBalance >= BigInt(token.amt_for_25_top_holder),
-            isTop10: adjustedBalance >= BigInt(token.amt_for_10_top_holder),
+            isTop250: token.amt_for_250_top_holder ? adjustedBalance >= BigInt(token.amt_for_250_top_holder) : false,
+            isTop100: token.amt_for_100_top_holder ? adjustedBalance >= BigInt(token.amt_for_100_top_holder) : false,
+            isTop50: token.amt_for_50_top_holder ? adjustedBalance >= BigInt(token.amt_for_50_top_holder) : false,
+            isTop25: token.amt_for_25_top_holder ? adjustedBalance >= BigInt(token.amt_for_25_top_holder) : false,
+            isTop10: token.amt_for_10_top_holder ? adjustedBalance >= BigInt(token.amt_for_10_top_holder) : false,
           },
         };
       } catch (e) {
         console.error(`Failed to convert balance for token ${token.name}:`, e);
+        console.error('Error details:', {
+          tokenAddress,
+          balanceStr,
+          decimals: token.decimals,
+          error: e.message
+        });
+
         return {
           address: tokenAddress,
           name: token.name,
