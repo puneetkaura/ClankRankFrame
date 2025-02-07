@@ -1,3 +1,4 @@
+
 export interface TokenThreshold {
   name: string;
   decimals: number;
@@ -114,5 +115,4 @@ export const TOP_CLANKER_HOLDING_THRESHOLD: Record<string, TokenThreshold> = {
       "amt_for_25_top_holder": 804176137,
       "amt_for_10_top_holder": 1215322775
     }
-  }
 } as const;
