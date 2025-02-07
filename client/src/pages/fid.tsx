@@ -9,9 +9,8 @@ import {
   getClankerTokenInfoForAddress,
   fetchUserInfoByFid,
 } from "@/lib/tokenService";
-import { Users, UserCheck, Copy } from "lucide-react";
+import { Users, UserCheck } from "lucide-react";
 import { getClankerRank } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 
 export default function FidPage() {
   const [, params] = useRoute("/fid/:fid");
@@ -46,6 +45,12 @@ export default function FidPage() {
     balances?.filter((token) => parseFloat(token.balance) > 0).slice(0, 6) || [];
   const tokenCount = filteredBalances.length;
   const { title, emoji } = getClankerRank(tokenCount);
+
+  // Format address to show first 4 and last 4 characters
+  const formatAddress = (address: string) => {
+    if (!address) return "";
+    return `${address.slice(0, 6)}...${address.slice(-4)}`;
+  };
 
   if (isLoadingUser) {
     return (
@@ -105,14 +110,14 @@ export default function FidPage() {
           <CardContent className="p-6">
             <div className="flex flex-col items-center gap-4">
               {/* Clanker Rank Section */}
-              <div className="flex flex-col items-center">
-                <div className="w-24 h-24 rounded-full bg-gradient-to-br from-primary/30 to-primary/10 flex items-center justify-center p-1 relative overflow-hidden animate-glitter">
+              <div className="flex flex-col items-center mb-4">
+                <div className="w-20 h-20 rounded-full bg-gradient-to-br from-primary/30 to-primary/10 flex items-center justify-center p-1 relative overflow-hidden animate-glitter mb-3">
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent glitter-effect"></div>
-                  <span className="text-4xl">{emoji}</span>
+                  <span className="text-3xl">{emoji}</span>
                 </div>
-                <h3 className="text-2xl font-bold text-white mt-4">{title}</h3>
+                <h3 className="text-xl font-bold text-white">{title}</h3>
                 {!isLoadingBalances && (
-                  <p className="text-sm text-white/80 mt-2">
+                  <p className="text-sm text-white/80 mt-1">
                     {tokenCount > 0 ? (
                       `Holding ${tokenCount} token${tokenCount !== 1 ? 's' : ''}`
                     ) : (
@@ -122,58 +127,41 @@ export default function FidPage() {
                 )}
               </div>
 
-              {/* Profile Section */}
-              <div className="flex flex-col gap-4">
-                <div className="flex items-center gap-3">
-                  <img 
-                    src={userInfo.pfp_url} 
-                    alt={userInfo.username} 
-                    className="w-14 h-14 rounded-full border-2 border-white/20"
-                  />
-                  <div className="text-left">
-                    <h2 className="text-lg font-bold text-white">
-                      {userInfo.display_name} <span className="font-normal text-white/80">(@{userInfo.username})</span>
+              {/* Profile Section - More Compact */}
+              <div className="flex items-center gap-3">
+                <img 
+                  src={userInfo.pfp_url} 
+                  alt={userInfo.username} 
+                  className="w-12 h-12 rounded-full border-2 border-white/20"
+                />
+                <div>
+                  <div className="flex items-center gap-2">
+                    <h2 className="text-base font-bold text-white">
+                      {userInfo.display_name}
                     </h2>
-                    <div className="flex gap-6 text-white/90 text-xs mt-1">
-                      <div className="flex items-center gap-1">
-                        <Users className="w-3 h-3" />
-                        <span className="font-medium">{userInfo.follower_count.toLocaleString()}</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <UserCheck className="w-3 h-3" />
-                        <span className="font-medium">{userInfo.following_count.toLocaleString()}</span>
-                      </div>
+                    <span className="text-sm text-white/80">@{userInfo.username}</span>
+                    {verifiedAddress && (
+                      <a 
+                        href={`https://basescan.org/address/${verifiedAddress}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-xs text-white/60 hover:text-white/80 transition-colors"
+                      >
+                        {formatAddress(verifiedAddress)}
+                      </a>
+                    )}
+                  </div>
+                  <div className="flex gap-4 text-white/90 text-xs mt-1">
+                    <div className="flex items-center gap-1">
+                      <Users className="w-3 h-3" />
+                      <span className="font-medium">{userInfo.follower_count.toLocaleString()}</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <UserCheck className="w-3 h-3" />
+                      <span className="font-medium">{userInfo.following_count.toLocaleString()}</span>
                     </div>
                   </div>
                 </div>
-
-                {verifiedAddress && (
-                  <div className="flex items-center gap-2 mt-2">
-                    <a 
-                      href={`https://basescan.org/address/${verifiedAddress}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex-1"
-                    >
-                      <code className="px-2 py-1 rounded bg-white/10 text-xs text-white/90 block overflow-x-auto hover:bg-white/20 transition-colors">
-                        {verifiedAddress}
-                      </code>
-                    </a>
-                    <Button 
-                      variant="ghost" 
-                      size="icon"
-                      className="h-6 w-6 text-white/80 hover:text-white"
-                      onClick={() => {
-                        navigator.clipboard.writeText(verifiedAddress);
-                        toast({
-                          description: "Address copied to clipboard",
-                        });
-                      }}
-                    >
-                      <Copy className="h-4 w-4" />
-                    </Button>
-                  </div>
-                )}
               </div>
             </div>
           </CardContent>
@@ -189,7 +177,11 @@ export default function FidPage() {
                 </p>
               </CardContent>
             </Card>
-            <TokenList balances={[]} address={verifiedAddress!} isLoading={true} />
+            <TokenList
+              balances={[]}
+              address={verifiedAddress!}
+              isLoading={true}
+            />
           </div>
         ) : filteredBalances.length > 0 ? (
           <TokenList
@@ -201,7 +193,9 @@ export default function FidPage() {
           <Card className="border-none bg-white/10 backdrop-blur-sm">
             <CardContent className="p-8 text-center">
               <div className="text-4xl mb-4">🔍</div>
-              <h3 className="text-xl font-bold text-white mb-2">No Tokens Found</h3>
+              <h3 className="text-xl font-bold text-white mb-2">
+                No Tokens Found
+              </h3>
               <p className="text-white/60">
                 Looks like this wallet is as empty as a penguin's refrigerator!
                 <br />
