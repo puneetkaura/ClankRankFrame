@@ -1,6 +1,4 @@
-
 import { Web3 } from 'web3';
-import BatchCall from 'web3-batch-call';
 import { TOP_CLANKER_HOLDING_THRESHOLD } from './tokenData';
 
 const ALCHEMY_RPC = "https://base-mainnet.g.alchemy.com/v2/ecImnMYatQyAcQFuruRJmRqo1gGW3yTA";
@@ -37,47 +35,36 @@ export async function getTokenBalances(address: string): Promise<TokenBalance[]>
   }
 
   const tokenAddresses = Object.keys(TOP_CLANKER_HOLDING_THRESHOLD);
-  const contracts = tokenAddresses.map(tokenAddress => ({
-    addresses: [tokenAddress],
-    contractAbi: ERC20_ABI,
-    calls: [{
-      reference: 'balanceOf',
-      method: 'balanceOf',
-      params: [address]
-    }]
-  }));
+  const balances: TokenBalance[] = [];
 
-  const batchCall = new BatchCall({
-    provider: ALCHEMY_RPC,
-    contracts,
-    blockNumber: 'latest'
-  });
-
-  try {
-    const results = await batchCall.execute();
-    return results.map((result: any, index: number) => {
-      const tokenAddress = tokenAddresses[index];
+  // Process tokens in order they appear in TOP_CLANKER_HOLDING_THRESHOLD
+  for (const tokenAddress of tokenAddresses) {
+    try {
       const token = TOP_CLANKER_HOLDING_THRESHOLD[tokenAddress];
-      const balance = BigInt(result[0]?.values?.[0] || '0');
+      const contract = new web3.eth.Contract(ERC20_ABI, tokenAddress);
+
+      const balance = BigInt(await contract.methods.balanceOf(address).call());
       const adjustedBalance = balance / BigInt(10 ** token.decimals);
 
-      return {
+      balances.push({
         address: tokenAddress,
         name: token.name,
         balance: adjustedBalance.toString(),
         ranking: {
-          isTop1000: adjustedBalance > BigInt(token.amt_for_1000_top_holder),
-          isTop500: adjustedBalance > BigInt(token.amt_for_500_top_holder),
-          isTop250: adjustedBalance > BigInt(token.amt_for_250_top_holder),
-          isTop100: adjustedBalance > BigInt(token.amt_for_100_top_holder),
-          isTop50: adjustedBalance > BigInt(token.amt_for_50_top_holder),
-          isTop25: adjustedBalance > BigInt(token.amt_for_25_top_holder),
-          isTop10: adjustedBalance > BigInt(token.amt_for_10_top_holder)
+          isTop1000: adjustedBalance > BigInt(token.amt_for_1000_top_holder || 0),
+          isTop500: adjustedBalance > BigInt(token.amt_for_500_top_holder || 0),
+          isTop250: adjustedBalance > BigInt(token.amt_for_250_top_holder || 0),
+          isTop100: adjustedBalance > BigInt(token.amt_for_100_top_holder || 0),
+          isTop50: adjustedBalance > BigInt(token.amt_for_50_top_holder || 0),
+          isTop25: adjustedBalance > BigInt(token.amt_for_25_top_holder || 0),
+          isTop10: adjustedBalance > BigInt(token.amt_for_10_top_holder || 0)
         }
-      };
-    });
-  } catch (error) {
-    console.error('Batch call failed:', error);
-    throw error;
+      });
+    } catch (error) {
+      console.error(`Failed to fetch balance for token ${tokenAddress}:`, error);
+      continue; // Skip this token and continue with others
+    }
   }
+
+  return balances;
 }
