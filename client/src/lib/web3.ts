@@ -1,8 +1,14 @@
 import { Web3 } from 'web3';
+import { Multicall } from 'ethereum-multicall';
 import { TOP_CLANKER_HOLDING_THRESHOLD } from './tokenData';
 
 const ALCHEMY_RPC = "https://base-mainnet.g.alchemy.com/v2/ecImnMYatQyAcQFuruRJmRqo1gGW3yTA";
 const web3 = new Web3(ALCHEMY_RPC);
+const multicall = new Multicall({
+  web3Instance: web3,
+  tryAggregate: true,
+  multicallCustomContractAddress: '0xcA11bde05977b3631167028862bE2a173976CA11' // Base network multicall contract
+});
 
 const ERC20_ABI = [
   {
@@ -35,18 +41,29 @@ export async function getTokenBalances(address: string): Promise<TokenBalance[]>
   }
 
   const tokenAddresses = Object.keys(TOP_CLANKER_HOLDING_THRESHOLD);
-  const balances: TokenBalance[] = [];
 
-  // Process tokens in order they appear in TOP_CLANKER_HOLDING_THRESHOLD
-  for (const tokenAddress of tokenAddresses) {
-    try {
+  try {
+    // Prepare multicall contract calls
+    const contractCallContext = tokenAddresses.map((tokenAddress) => ({
+      reference: tokenAddress,
+      contractAddress: tokenAddress,
+      abi: ERC20_ABI,
+      calls: [{ reference: 'balanceOf', methodName: 'balanceOf', methodParameters: [address] }]
+    }));
+
+    // Execute multicall
+    const { results } = await multicall.call(contractCallContext);
+
+    // Process results maintaining order from tokenAddresses
+    return tokenAddresses.map((tokenAddress) => {
       const token = TOP_CLANKER_HOLDING_THRESHOLD[tokenAddress];
-      const contract = new web3.eth.Contract(ERC20_ABI, tokenAddress);
+      const result = results[tokenAddress];
 
-      const balance = BigInt(await contract.methods.balanceOf(address).call());
-      const adjustedBalance = balance / BigInt(10 ** token.decimals);
+      // Get balance from multicall result
+      const balance = result?.callsReturnContext[0]?.returnValues[0]?.hex || '0x0';
+      const adjustedBalance = BigInt(balance) / BigInt(10 ** token.decimals);
 
-      balances.push({
+      return {
         address: tokenAddress,
         name: token.name,
         balance: adjustedBalance.toString(),
@@ -59,12 +76,10 @@ export async function getTokenBalances(address: string): Promise<TokenBalance[]>
           isTop25: adjustedBalance > BigInt(token.amt_for_25_top_holder || 0),
           isTop10: adjustedBalance > BigInt(token.amt_for_10_top_holder || 0)
         }
-      });
-    } catch (error) {
-      console.error(`Failed to fetch balance for token ${tokenAddress}:`, error);
-      continue; // Skip this token and continue with others
-    }
+      };
+    });
+  } catch (error) {
+    console.error('Multicall failed:', error);
+    throw error;
   }
-
-  return balances;
 }
