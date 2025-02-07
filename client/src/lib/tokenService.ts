@@ -35,7 +35,6 @@ export interface TokenBalance {
 export const TOP_CLANKER_HOLDING_THRESHOLD: Record<string, TokenThreshold> = {
   "0x2f6c17fa9f9bC3600346ab4e48C0701e1d5962AE": {
     "name": "Fartcoin",
-    "img_url": "https://token-media.defined.fi/8453_0x2f6c17fa9f9bc3600346ab4e48c0701e1d5962ae_1738610042_small.png",
     "decimals": 18,
     "amt_for_1000_top_holder": 4880000,
     "amt_for_500_top_holder": 20000000,
@@ -45,7 +44,131 @@ export const TOP_CLANKER_HOLDING_THRESHOLD: Record<string, TokenThreshold> = {
     "amt_for_25_top_holder": 649326066,
     "amt_for_10_top_holder": 1018654744
   },
-  // ... other tokens
+  "0x1bc0c42215582d5A085795f4baDbaC3ff36d1Bcb": {
+    "name": "CLANKER",
+    "decimals": 18,
+    "amt_for_1000_top_holder": 56,
+    "amt_for_500_top_holder": 189,
+    "amt_for_250_top_holder": 515,
+    "amt_for_100_top_holder": 1465,
+    "amt_for_50_top_holder": 3757,
+    "amt_for_25_top_holder": 7533,
+    "amt_for_10_top_holder": 12500
+  },
+  "0x22aF33FE49fD1Fa80c7149773dDe5890D3c76F3b": {
+    "name": "BNKR",
+    "decimals": 18,
+    "amt_for_1000_top_holder": 5006000,
+    "amt_for_500_top_holder": 16490000,
+    "amt_for_250_top_holder": 64703807,
+    "amt_for_100_top_holder": 169534852,
+    "amt_for_50_top_holder": 300137271,
+    "amt_for_25_top_holder": 551891129,
+    "amt_for_10_top_holder": 1162681821
+  },
+  "0x20DD04c17AFD5c9a8b3f2cdacaa8Ee7907385BEF": {
+    "name": "NATIVE",
+    "decimals": 18,
+    "amt_for_1000_top_holder": 4162000,
+    "amt_for_500_top_holder": 13570000,
+    "amt_for_250_top_holder": 64949683,
+    "amt_for_100_top_holder": 200021367,
+    "amt_for_50_top_holder": 449775064,
+    "amt_for_25_top_holder": 685359319,
+    "amt_for_10_top_holder": 1200000000
+  },
+  "0x2D57C47BC5D2432FEEEdf2c9150162A9862D3cCf": {
+    "name": "DICKBUTT",
+    "decimals": 18,
+    "amt_for_1000_top_holder": 3449000,
+    "amt_for_500_top_holder": 15440000,
+    "amt_for_250_top_holder": 50000000,
+    "amt_for_100_top_holder": 165974306,
+    "amt_for_50_top_holder": 406369743,
+    "amt_for_25_top_holder": 826511438,
+    "amt_for_10_top_holder": 1500000000
+  },
+  "0x0fD7a301B51d0A83FCAf6718628174D527B373b6": {
+    "name": "LUM",
+    "decimals": 18,
+    "amt_for_1000_top_holder": 86,
+    "amt_for_500_top_holder": 211,
+    "amt_for_250_top_holder": 549,
+    "amt_for_100_top_holder": 1401,
+    "amt_for_50_top_holder": 2661,
+    "amt_for_25_top_holder": 11475,
+    "amt_for_10_top_holder": 88976
+  },
+  "0x0Db510e79909666d6dEc7f5e49370838c16D950f": {
+    "name": "ANON",
+    "decimals": 18,
+    "amt_for_1000_top_holder": 71455,
+    "amt_for_500_top_holder": 192719,
+    "amt_for_250_top_holder": 587473,
+    "amt_for_100_top_holder": 2000000,
+    "amt_for_50_top_holder": 3105000,
+    "amt_for_25_top_holder": 5530000,
+    "amt_for_10_top_holder": 12160000
+  },
+  "0x348409fa3651D4Cf8571dB6bDfaAdD3df35987cD": {
+    "name": "BILLY",
+    "decimals": 18,
+    "amt_for_10_top_holder": 550
+  },
+  "0x1d008f50FB828eF9DEbBBEAe1B71FfFe929bf317": {
+    "name": "CLANKFUN",
+    "decimals": 18,
+    "amt_for_1000_top_holder": 1292000,
+    "amt_for_500_top_holder": 6526000,
+    "amt_for_250_top_holder": 46286340,
+    "amt_for_100_top_holder": 167941328,
+    "amt_for_50_top_holder": 351435539,
+    "amt_for_25_top_holder": 804176137,
+    "amt_for_10_top_holder": 1215322775
+  },
+  "0x20Fd4C5396F7D9686f9997e0F10991957f7112fc": {
+    "name": "GDUPI",
+    "decimals": 18,
+    "amt_for_1000_top_holder": 2000000,
+    "amt_for_500_top_holder": 10450000,
+    "amt_for_250_top_holder": 35492875,
+    "amt_for_100_top_holder": 131747018,
+    "amt_for_50_top_holder": 319220029,
+    "amt_for_25_top_holder": 636629999,
+    "amt_for_10_top_holder": 1050698010
+  },
+  "0x275de0c241d52f9f005995b38e285f0ff2101155": {
+    "name": "streamm.tv",
+    "decimals": 18,
+    "amt_for_500_top_holder": 287672,
+    "amt_for_250_top_holder": 8618306,
+    "amt_for_100_top_holder": 86048003,
+    "amt_for_50_top_holder": 279334565,
+    "amt_for_25_top_holder": 550000000,
+    "amt_for_10_top_holder": 1300000000
+  },
+  "0x0a8753e39d5805bab0e570dd1974ee43f90799a8": {
+    "name": "BARKBARK",
+    "decimals": 18,
+    "amt_for_1000_top_holder": 0,
+    "amt_for_500_top_holder": 0,
+    "amt_for_250_top_holder": 9,
+    "amt_for_100_top_holder": 142,
+    "amt_for_50_top_holder": 456,
+    "amt_for_25_top_holder": 1295,
+    "amt_for_10_top_holder": 4201
+  },
+  "0x06f71fb90f84b35302d132322a3c90e4477333b0": {
+    "name": "BRACKY",
+    "decimals": 18,
+    "amt_for_1000_top_holder": 0,
+    "amt_for_500_top_holder": 882902,
+    "amt_for_250_top_holder": 7460735,
+    "amt_for_100_top_holder": 70667941,
+    "amt_for_50_top_holder": 210868567,
+    "amt_for_25_top_holder": 707291960,
+    "amt_for_10_top_holder": 1121515472
+  }
 } as const;
 
 const web3 = new Web3(ALCHEMY_RPC);
