@@ -53,17 +53,70 @@ export default function FidPage() {
               </p>
             </div>
           )}
-
-          {userInfo && (
-            <div className="flex items-center justify-center gap-4">
-              <img src={userInfo.pfp_url} alt={userInfo.username} className="w-12 h-12 rounded-full" />
-              <div className="text-left">
-                <h2 className="font-semibold">{userInfo.display_name}</h2>
-                <p className="text-sm text-muted-foreground">@{userInfo.username}</p>
-              </div>
-            </div>
-          )}
         </div>
+
+        {userInfo && (
+          <Card className="border border-primary/10 bg-background/50">
+            <CardContent className="p-4">
+              <div className="flex flex-col items-center gap-4">
+                <div className="flex items-center gap-4">
+                  <img 
+                    src={userInfo.pfp_url} 
+                    alt={userInfo.username} 
+                    className="w-14 h-14 rounded-full border border-primary/10"
+                  />
+                  <div className="text-left">
+                    <h2 className="font-semibold text-lg">{userInfo.display_name}</h2>
+                    <p className="text-muted-foreground text-sm">@{userInfo.username}</p>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4 w-full max-w-xs">
+                  <div className="flex flex-col items-center p-3 rounded bg-primary/5">
+                    <div className="flex items-center gap-2">
+                      <Users className="w-4 h-4 text-primary/60" />
+                      <span className="font-medium">{userInfo.follower_count}</span>
+                    </div>
+                    <p className="text-xs text-muted-foreground mt-1">Followers</p>
+                  </div>
+                  <div className="flex flex-col items-center p-3 rounded bg-primary/5">
+                    <div className="flex items-center gap-2">
+                      <UserCheck className="w-4 h-4 text-primary/60" />
+                      <span className="font-medium">{userInfo.following_count}</span>
+                    </div>
+                    <p className="text-xs text-muted-foreground mt-1">Following</p>
+                  </div>
+                </div>
+
+                {verifiedAddress && (
+                  <p className="text-xs text-muted-foreground bg-primary/5 px-3 py-1.5 rounded">
+                    {verifiedAddress.slice(0, 6)}...{verifiedAddress.slice(-4)}
+                  </p>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {isLoading ? (
+          <Card className="border border-primary/10 bg-background/50">
+            <CardContent className="p-4">
+              <div className="flex flex-col items-center gap-4">
+                <div className="flex items-center gap-4">
+                  <Skeleton className="h-14 w-14 rounded-full" />
+                  <div>
+                    <Skeleton className="h-5 w-32 mb-2" />
+                    <Skeleton className="h-4 w-24" />
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-4 w-full max-w-xs">
+                  <Skeleton className="h-16 rounded" />
+                  <Skeleton className="h-16 rounded" />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        ) : null}
 
         {isLoading ? (
           <TokenList balances={[]} address={verifiedAddress || ''} isLoading={true} />
