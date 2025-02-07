@@ -103,60 +103,67 @@ export default function FidPage() {
 
         <Card className="max-w-xl mx-auto bg-white/10 border-none backdrop-blur-sm">
           <CardContent className="p-6">
-            {/* Clanker Rank Section */}
-            <div className="flex flex-col items-center">
-              <div className="flex items-center gap-4 mb-2">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary/30 to-primary/10 flex items-center justify-center relative overflow-hidden animate-glitter">
+            {/* Profile Section with Rank */}
+            <div className="flex flex-col gap-6">
+              <div className="flex items-start gap-4">
+                {/* Rank Emoji Section */}
+                <div className="w-14 h-14 rounded-full bg-gradient-to-br from-primary/30 to-primary/10 flex items-center justify-center relative overflow-hidden animate-glitter">
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent glitter-effect"></div>
-                  <span className="text-2xl">{emoji}</span>
+                  <span className="text-3xl">{emoji}</span>
                 </div>
-                <h3 className="text-2xl font-bold text-white">{title}</h3>
-              </div>
-              {!isLoadingBalances && (
-                <p className="text-sm text-white/80">
-                  {tokenCount > 0 ? (
-                    `Holding ${tokenCount} token${tokenCount !== 1 ? 's' : ''}`
-                  ) : (
-                    "No tokens yet"
-                  )}
-                </p>
-              )}
-            </div>
 
-            {/* Profile Section */}
-            <div className="flex flex-col gap-4">
-              <div className="flex items-center gap-3">
-                <img
-                  src={userInfo.pfp_url}
-                  alt={userInfo.username}
-                  className="w-14 h-14 rounded-full border-2 border-white/20"
-                />
-                <div className="text-left">
-                  <h2 className="text-lg font-bold text-white">
-                    {userInfo.display_name}{" "}
-                    <span className="font-normal text-white/80">
-                      (@{userInfo.username})
-                    </span>
-                  </h2>
-                  <div className="flex gap-6 text-white/90 text-xs mt-1">
-                    <div className="flex items-center gap-1">
-                      <Users className="w-3 h-3" />
-                      <span className="font-medium">
-                        {userInfo.follower_count.toLocaleString()}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <UserCheck className="w-3 h-3" />
-                      <span className="font-medium">
-                        {userInfo.following_count.toLocaleString()}
-                      </span>
+                {/* Profile Info */}
+                <div className="flex-1">
+                  {/* Rank Title and Token Count */}
+                  <div className="mb-4">
+                    <h3 className="text-2xl font-bold text-white">{title}</h3>
+                    {!isLoadingBalances && (
+                      <p className="text-sm text-white/80 mt-1">
+                        {tokenCount > 0 ? (
+                          `Holding ${tokenCount} token${tokenCount !== 1 ? 's' : ''}`
+                        ) : (
+                          "No tokens yet"
+                        )}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* User Profile */}
+                  <div className="flex items-center gap-3">
+                    <img
+                      src={userInfo.pfp_url}
+                      alt={userInfo.username}
+                      className="w-14 h-14 rounded-full border-2 border-white/20"
+                    />
+                    <div>
+                      <h2 className="text-lg font-bold text-white">
+                        {userInfo.display_name}{" "}
+                        <span className="font-normal text-white/80">
+                          (@{userInfo.username})
+                        </span>
+                      </h2>
+                      <div className="flex gap-6 text-white/90 text-xs mt-1">
+                        <div className="flex items-center gap-1">
+                          <Users className="w-3 h-3" />
+                          <span className="font-medium">
+                            {userInfo.follower_count.toLocaleString()}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <UserCheck className="w-3 h-3" />
+                          <span className="font-medium">
+                            {userInfo.following_count.toLocaleString()}
+                          </span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
 
+              {/* Verified Address Section */}
               {verifiedAddress && (
-                <div className="flex items-center gap-2 mt-2">
+                <div className="flex items-center gap-2">
                   <a
                     href={`https://basescan.org/address/${verifiedAddress}`}
                     target="_blank"
