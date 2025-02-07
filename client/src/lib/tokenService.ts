@@ -174,7 +174,7 @@ export const TOP_CLANKER_HOLDING_THRESHOLD: Record<string, TokenThreshold> = {
   },
   "0x1d008f50FB828eF9DEbBBEAe1B71FfFe929bf317": {
     "name": "CLANKFUN",
-    "img_url": "",
+    "img_url": "https://token-media.defined.fi/8453_0x1d008f50fb828ef9debbbeae1b71fffe929bf317_1738271712_small.png",
     "decimals": 18,
     "amt_for_1000_top_holder": 1292000,
     "amt_for_500_top_holder": 6526000,
@@ -186,7 +186,7 @@ export const TOP_CLANKER_HOLDING_THRESHOLD: Record<string, TokenThreshold> = {
   },
   "0x20Fd4C5396F7D9686f9997e0F10991957f7112fc": {
     "name": "GDUPI",
-    "img_url": "",
+    "img_url": "https://token-media.defined.fi/8453_0x20fd4c5396f7d9686f9997e0f10991957f7112fc_1738286103_small.png",
     "decimals": 18,
     "amt_for_1000_top_holder": 2000000,
     "amt_for_500_top_holder": 10450000,
@@ -198,7 +198,7 @@ export const TOP_CLANKER_HOLDING_THRESHOLD: Record<string, TokenThreshold> = {
   },
   "0x275de0c241d52f9f005995b38e285f0ff2101155": {
     "name": "streamm.tv",
-    "img_url": "",
+    "img_url": "https://token-media.defined.fi/8453_0x275de0c241d52f9f005995b38e285f0ff2101155_1738286103_small.png",
     "decimals": 18,
     "amt_for_500_top_holder": 287672,
     "amt_for_250_top_holder": 8618306,
@@ -209,7 +209,7 @@ export const TOP_CLANKER_HOLDING_THRESHOLD: Record<string, TokenThreshold> = {
   },
   "0x0a8753e39d5805bab0e570dd1974ee43f90799a8": {
     "name": "BARKBARK",
-    "img_url": "",
+    "img_url": "https://token-media.defined.fi/8453_0x0a8753e39d5805bab0e570dd1974ee43f90799a8_1738286103_small.png",
     "decimals": 18,
     "amt_for_1000_top_holder": 0,
     "amt_for_500_top_holder": 0,
@@ -221,7 +221,7 @@ export const TOP_CLANKER_HOLDING_THRESHOLD: Record<string, TokenThreshold> = {
   },
   "0x06f71fb90f84b35302d132322a3c90e4477333b0": {
     "name": "BRACKY",
-    "img_url": "",
+    "img_url": "https://token-media.defined.fi/8453_0x06f71fb90f84b35302d132322a3c90e4477333b0_1738286103_small.png",
     "decimals": 18,
     "amt_for_1000_top_holder": 0,
     "amt_for_500_top_holder": 882902,
@@ -231,6 +231,7 @@ export const TOP_CLANKER_HOLDING_THRESHOLD: Record<string, TokenThreshold> = {
     "amt_for_25_top_holder": 707291960,
     "amt_for_10_top_holder": 1121515472
   }
+
 } as const;
 
 export async function fetchUserInfoByFid(fid: number): Promise<FarcasterUser | null> {
