@@ -10,7 +10,7 @@ import {
   fetchUserInfoByFid,
 } from "@/lib/tokenService";
 import { Users, UserCheck, Copy } from "lucide-react";
-import { getClankerRank } from "@/lib/utils";
+import { getClankerRank, truncateAddress } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
 export default function FidPage() {
@@ -170,8 +170,8 @@ export default function FidPage() {
                     rel="noopener noreferrer"
                     className="flex-1"
                   >
-                    <code className="px-2 py-1 rounded bg-white/10 text-xs text-white/90 block overflow-x-auto hover:bg-white/20 transition-colors">
-                      {verifiedAddress}
+                    <code className="px-2 py-1 rounded bg-white/10 text-xs text-white/90 block truncate hover:bg-white/20 transition-colors">
+                      {truncateAddress(verifiedAddress)}
                     </code>
                   </a>
                   <Button

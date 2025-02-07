@@ -15,3 +15,9 @@ export function getClankerRank(tokenCount: number): { title: string; emoji: stri
   }
   return { title: "No Tokens", emoji: "🔍" };
 }
+
+export function truncateAddress(address: string): string {
+  if (!address) return '';
+  if (address.length <= 13) return address;
+  return `${address.slice(0, 5)}...${address.slice(-5)}`;
+}
