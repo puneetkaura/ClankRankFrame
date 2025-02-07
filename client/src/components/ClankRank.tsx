@@ -48,15 +48,19 @@ export default function ClankRank({
                 {/* Rank Title and Token Count */}
                 <div className="mb-4">
                   <h3 className="text-2xl font-bold text-white">{title}</h3>
-                  <p className="text-sm text-white/80 mt-1">
-                    {isLoading ? (
-                      <span className="animate-pulse">Loading tokens...</span>
-                    ) : tokenCount > 0 ? (
-                      `Holding ${tokenCount} token${tokenCount !== 1 ? 's' : ''}`
-                    ) : (
-                      "No tokens yet"
-                    )}
-                  </p>
+                  {isLoading ? (
+                    <p className="text-sm text-white/80 mt-1 animate-pulse">
+                      Loading tokens...
+                    </p>
+                  ) : (
+                    <p className="text-sm text-white/80 mt-1">
+                      {tokenCount > 0 ? (
+                        `Holding ${tokenCount} token${tokenCount !== 1 ? 's' : ''}`
+                      ) : (
+                        "No tokens yet"
+                      )}
+                    </p>
+                  )}
                 </div>
 
                 {/* User Info */}
@@ -129,24 +133,12 @@ export default function ClankRank({
           </Card>
           <TokenList balances={[]} address={verifiedAddress} isLoading={true} />
         </div>
-      ) : filteredBalances.length > 0 ? (
+      ) : (
         <TokenList
           balances={filteredBalances}
           address={verifiedAddress}
           isLoading={false}
         />
-      ) : (
-        <Card className="border-none bg-white/10 backdrop-blur-sm">
-          <CardContent className="p-8 text-center">
-            <div className="text-4xl mb-4">🔍</div>
-            <h3 className="text-xl font-bold text-white mb-2">No Tokens Found</h3>
-            <p className="text-white/60">
-              Looks like this wallet is as empty as a penguin's refrigerator!
-              <br />
-              Time to start collecting some tokens? 🎯
-            </p>
-          </CardContent>
-        </Card>
       )}
     </div>
   );
