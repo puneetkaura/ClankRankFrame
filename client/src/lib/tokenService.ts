@@ -2,6 +2,55 @@ import { Web3 } from 'web3';
 import { Multicall } from 'ethereum-multicall';
 
 const ALCHEMY_RPC = "https://base-mainnet.g.alchemy.com/v2/ecImnMYatQyAcQFuruRJmRqo1gGW3yTA";
+const NEYNAR_API_KEY = "ED29465E-7549-469E-A427-A7F95FC28822";
+
+export interface FarcasterUserProfile {
+  bio?: {
+    text: string;
+  };
+  location?: {
+    latitude: number;
+    longitude: number;
+    address: {
+      city: string;
+      state: string;
+      country: string;
+      country_code: string;
+    };
+  };
+}
+
+export interface FarcasterUser {
+  object: string;
+  fid: number;
+  username: string;
+  display_name: string;
+  pfp_url: string;
+  custody_address: string;
+  profile: FarcasterUserProfile;
+  follower_count: number;
+  following_count: number;
+  verifications: string[];
+  verified_addresses: {
+    eth_addresses: string[];
+    sol_addresses: string[];
+  };
+  verified_accounts: string[];
+  power_badge: boolean;
+  viewer_context: {
+    following: boolean;
+    followed_by: boolean;
+    blocking: boolean;
+    blocked_by: boolean;
+  };
+}
+
+export interface FarcasterResponse {
+  users: FarcasterUser[];
+  next: {
+    cursor: string | null;
+  };
+}
 
 export interface TokenThreshold {
   name: string;
@@ -170,6 +219,31 @@ export const TOP_CLANKER_HOLDING_THRESHOLD: Record<string, TokenThreshold> = {
     "amt_for_10_top_holder": 1121515472
   }
 } as const;
+
+export async function fetchUserInfoByFid(fid: number): Promise<FarcasterUser | null> {
+  try {
+    const response = await fetch(
+      `https://api.neynar.com/v2/farcaster/user/bulk?fids=${fid}&viewer_fid=3`,
+      {
+        headers: {
+          'accept': 'application/json',
+          'x-api-key': NEYNAR_API_KEY,
+          'x-neynar-experimental': 'false'
+        }
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`API request failed with status ${response.status}`);
+    }
+
+    const data: FarcasterResponse = await response.json();
+    return data.users[0] || null;
+  } catch (error) {
+    console.error('Failed to fetch Farcaster user info:', error);
+    throw error;
+  }
+}
 
 const web3 = new Web3(ALCHEMY_RPC);
 const multicall = new Multicall({

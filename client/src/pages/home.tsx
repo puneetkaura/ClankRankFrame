@@ -6,9 +6,10 @@ import TokenList from "@/components/TokenList";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
-import { getClankerTokenInfoForAddress } from "@/lib/tokenService";
+import { getClankerTokenInfoForAddress, fetchUserInfoByFid } from "@/lib/tokenService";
 
 const DEFAULT_ADDRESS = "0x862687EafbA7a988148Ef563F830E8B66fdDFD8b";
+const DEFAULT_FID = 4003;
 
 export default function Home() {
   const [, params] = useRoute("/address/:address");
@@ -22,15 +23,22 @@ export default function Home() {
     }
   }, [params?.address, setLocation]);
 
-  const { data: balances, isLoading, error } = useQuery({
+  const { data: balances, isLoading: isLoadingBalances, error: balancesError } = useQuery({
     queryKey: ['balances', address],
     queryFn: () => getClankerTokenInfoForAddress(address),
     enabled: Boolean(address)
   });
 
+  const { data: userInfo, isLoading: isLoadingUser } = useQuery({
+    queryKey: ['userInfo', DEFAULT_FID],
+    queryFn: () => fetchUserInfoByFid(DEFAULT_FID)
+  });
+
   const handleSubmit = async (addr: string) => {
     setLocation(`/address/${addr}`);
   };
+
+  const isLoading = isLoadingBalances || isLoadingUser;
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-secondary/20 p-4 md:p-8">
@@ -42,6 +50,15 @@ export default function Home() {
           <p className="text-muted-foreground text-lg">
             Analyze EVM address token holdings and rankings
           </p>
+          {userInfo && (
+            <div className="flex items-center justify-center gap-4">
+              <img src={userInfo.pfp_url} alt={userInfo.username} className="w-12 h-12 rounded-full" />
+              <div className="text-left">
+                <h2 className="font-semibold">{userInfo.display_name}</h2>
+                <p className="text-sm text-muted-foreground">@{userInfo.username}</p>
+              </div>
+            </div>
+          )}
         </div>
 
         <Card className="border-primary/20">
@@ -60,7 +77,7 @@ export default function Home() {
           <TokenList balances={balances} address={address} />
         ) : null}
 
-        {error && (
+        {balancesError && (
           <Card className="border-destructive">
             <CardContent className="p-4 text-center text-destructive">
               Failed to fetch token balances. Please try again.
