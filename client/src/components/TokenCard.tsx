@@ -30,30 +30,30 @@ export default function TokenCard({ token }: TokenCardProps) {
     >
       <Card className="bg-white/10 border-none backdrop-blur-sm hover:bg-white/20 transition-colors duration-300">
         <CardHeader className="space-y-3 p-4">
-          {highestRank && (
-            <Badge 
-              variant="secondary" 
-              className="w-fit mx-auto px-2 py-0.5 bg-primary/20 text-primary-foreground border-none text-[10px] font-medium"
-            >
-              {highestRank}
-            </Badge>
-          )}
-          <div className="flex flex-col items-center text-center gap-2">
+          <div className="flex items-center justify-between">
             {token.img_url && (
               <img 
                 src={token.img_url} 
                 alt={token.name} 
-                className="w-10 h-10 rounded-full"
+                className="w-8 h-8 rounded-full"
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
                   target.style.display = 'none';
                 }}
               />
             )}
-            <div className="w-full">
-              <p className="font-medium text-white text-sm">{token.name}</p>
-              <p className="font-bold text-white text-lg">{formatBalance(token.balance)}</p>
-            </div>
+            {highestRank && (
+              <Badge 
+                variant="secondary" 
+                className="px-2 py-0.5 bg-primary/20 text-primary-foreground border-none text-[10px] font-medium"
+              >
+                {highestRank}
+              </Badge>
+            )}
+          </div>
+          <div className="text-center space-y-1">
+            <p className="font-medium text-white text-sm">{token.name}</p>
+            <p className="font-bold text-white text-lg">{formatBalance(token.balance)}</p>
           </div>
         </CardHeader>
       </Card>
