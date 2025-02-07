@@ -39,13 +39,22 @@ export default function FidPage() {
       <div className="max-w-7xl mx-auto space-y-8">
         <div className="text-center space-y-6">
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-12">
-            ClankRank Dashboard
+            Baseedge Clanker Rank
           </h1>
 
           {userInfo && (
             <Card className="max-w-2xl mx-auto bg-white/10 border-none backdrop-blur-sm">
               <CardContent className="p-8">
                 <div className="flex flex-col items-center gap-6">
+                  {/* Clanker Rank Section */}
+                  <div className="flex flex-col items-center gap-2">
+                    <div className="text-5xl">{emoji}</div>
+                    <h3 className="text-3xl font-bold text-white">{title}</h3>
+                    <p className="text-white/80">
+                      Holding {tokenCount} token{tokenCount !== 1 ? 's' : ''}
+                    </p>
+                  </div>
+
                   {/* Profile Section */}
                   <div className="flex items-center gap-4">
                     <img 
@@ -57,15 +66,6 @@ export default function FidPage() {
                       <h2 className="text-2xl font-bold text-white">{userInfo.display_name}</h2>
                       <p className="text-white/80">@{userInfo.username}</p>
                     </div>
-                  </div>
-
-                  {/* Clanker Rank */}
-                  <div className="flex flex-col items-center gap-2">
-                    <div className="text-5xl">{emoji}</div>
-                    <h3 className="text-3xl font-bold text-white">{title}</h3>
-                    <p className="text-white/80">
-                      Holding {tokenCount} token{tokenCount !== 1 ? 's' : ''}
-                    </p>
                   </div>
 
                   {/* Following/Followers */}
