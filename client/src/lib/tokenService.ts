@@ -118,6 +118,113 @@ export const TOP_CLANKER_HOLDING_THRESHOLD: Record<string, TokenThreshold> = {
     amt_for_50_top_holder: 300137271,
     amt_for_25_top_holder: 551891129,
     amt_for_10_top_holder: 1162681821
+  },
+  "0x275de0c241d52f9f005995b38e285f0ff2101155": {
+    name: "streamm.tv",
+    img_url: "https://token-media.defined.fi/8453_0x275de0c241d52f9f005995b38e285f0ff2101155_1736619358_small.png",
+    decimals: 18,
+    amt_for_500_top_holder: 287672,
+    amt_for_250_top_holder: 8618306,
+    amt_for_100_top_holder: 86048003,
+    amt_for_50_top_holder: 279334565,
+    amt_for_25_top_holder: 550000000,
+    amt_for_10_top_holder: 1300000000
+  },
+  "0x0a8753e39d5805bab0e570dd1974ee43f90799a8": {
+    name: "BARKBARK",
+    img_url: "https://token-media.defined.fi/8453_0x0a8753e39d5805bab0e570dd1974ee43f90799a8_1738228535_small.png",
+    decimals: 18,
+    amt_for_1000_top_holder: 0,
+    amt_for_500_top_holder: 0,
+    amt_for_250_top_holder: 9,
+    amt_for_100_top_holder: 142,
+    amt_for_50_top_holder: 456,
+    amt_for_25_top_holder: 1295,
+    amt_for_10_top_holder: 4201
+  },
+  "0x06f71fb90f84b35302d132322a3c90e4477333b0": {
+    name: "BRACKY",
+    img_url: "https://token-media.defined.fi/8453_0x06f71fb90f84b35302d132322a3c90e4477333b0_1738509273_small.png",
+    decimals: 18,
+    amt_for_1000_top_holder: 0,
+    amt_for_500_top_holder: 882902,
+    amt_for_250_top_holder: 7460735,
+    amt_for_100_top_holder: 70667941,
+    amt_for_50_top_holder: 210868567,
+    amt_for_25_top_holder: 707291960,
+    amt_for_10_top_holder: 1121515472
+  },
+  "0x36b0bc9b7cd78c589076c8fb7cd3f68b25b9770a": {
+    name: "BOLIDE",
+    img_url: "https://token-media.defined.fi/8453_0x36b0bc9b7cd78c589076c8fb7cd3f68b25b9770a_1738545340_small.png",
+    decimals: 18,
+    amt_for_1000_top_holder: 0,
+    amt_for_500_top_holder: 1112208,
+    amt_for_250_top_holder: 6431649,
+    amt_for_100_top_holder: 50000000,
+    amt_for_50_top_holder: 214228135,
+    amt_for_25_top_holder: 747518566,
+    amt_for_10_top_holder: 1691125719
+  },
+  "0x02e739740b007bd5e4600b9736a143b6e794d223": {
+    name: "BRING",
+    img_url: "https://token-media.defined.fi/8453_0x02e739740b007bd5e4600b9736a143b6e794d223_1738437290_small.png",
+    decimals: 18,
+    amt_for_1000_top_holder: 0,
+    amt_for_500_top_holder: 0,
+    amt_for_250_top_holder: 2500,
+    amt_for_100_top_holder: 40027565,
+    amt_for_50_top_holder: 319505033,
+    amt_for_25_top_holder: 692384265,
+    amt_for_10_top_holder: 2988159890
+  },
+  "0x3849cc93e7b71b37885237cd91a215974135cd8d": {
+    name: "CREATE",
+    img_url: "https://token-media.defined.fi/8453_0x3849cc93e7b71b37885237cd91a215974135cd8d_1738743295_small.png",
+    decimals: 18,
+    amt_for_1000_top_holder: 0,
+    amt_for_500_top_holder: 1160017,
+    amt_for_250_top_holder: 14786013,
+    amt_for_100_top_holder: 115903018,
+    amt_for_50_top_holder: 382684155,
+    amt_for_25_top_holder: 1030862918,
+    amt_for_10_top_holder: 1777836265
+  },
+  "0x11a25224c18517980720a03a07831cde8b00c4fb": {
+    name: "PUBECOIN",
+    img_url: "https://token-media.defined.fi/8453_0x11a25224c18517980720a03a07831cde8b00c4fb_1738264571_small.png",
+    decimals: 18,
+    amt_for_1000_top_holder: 0,
+    amt_for_500_top_holder: 370764,
+    amt_for_250_top_holder: 10808245,
+    amt_for_100_top_holder: 251833898,
+    amt_for_50_top_holder: 370005545,
+    amt_for_25_top_holder: 539825837,
+    amt_for_10_top_holder: 1100090000
+  },
+  "0x1035ae3f87a91084c6c5084d0615cc6121c5e228": {
+    name: "BASEDFWOG",
+    img_url: "https://token-media.defined.fi/8453_0x1035ae3f87a91084c6c5084d0615cc6121c5e228_1738728855_small.png",
+    decimals: 18,
+    amt_for_1000_top_holder: 2585000,
+    amt_for_500_top_holder: 12758500,
+    amt_for_250_top_holder: 41045379,
+    amt_for_100_top_holder: 132210281,
+    amt_for_50_top_holder: 304107147,
+    amt_for_25_top_holder: 564205030,
+    amt_for_10_top_holder: 1000000000
+  },
+  "0x820c5f0fb255a1d18fd0ebb0f1ccefbc4d546da7": {
+    name: "A0X",
+    img_url: "https://token-media.defined.fi/8453_0x820c5f0fb255a1d18fd0ebb0f1ccefbc4d546da7_1738728855_small.png",
+    decimals: 18,
+    amt_for_1000_top_holder: 0,
+    amt_for_500_top_holder: 0,
+    amt_for_250_top_holder: 6426268,
+    amt_for_100_top_holder: 75920600,
+    amt_for_50_top_holder: 255195408,
+    amt_for_25_top_holder: 1112840745,
+    amt_for_10_top_holder: 2070261406
   }
 } as const;
 
