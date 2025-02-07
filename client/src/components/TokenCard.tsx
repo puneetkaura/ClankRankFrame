@@ -1,6 +1,5 @@
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ExternalLink } from "lucide-react";
 import { formatBalance, getDexscreenerUrl } from "@/lib/formatters";
 import type { TokenBalance } from "@/lib/tokenService";
 
@@ -9,57 +8,52 @@ interface TokenCardProps {
 }
 
 export default function TokenCard({ token }: TokenCardProps) {
-  const rankBadges = [
-    { rank: "Top 10", active: token.ranking.isTop10 },
-    { rank: "Top 25", active: token.ranking.isTop25 },
-    { rank: "Top 50", active: token.ranking.isTop50 },
-    { rank: "Top 100", active: token.ranking.isTop100 },
-    { rank: "Top 250", active: token.ranking.isTop250 },
-    { rank: "Top 500", active: token.ranking.isTop500 },
-    { rank: "Top 1000", active: token.ranking.isTop1000 },
-  ];
+  const getHighestRank = () => {
+    if (token.ranking.isTop10) return "Top 10";
+    if (token.ranking.isTop25) return "Top 25";
+    if (token.ranking.isTop50) return "Top 50";
+    if (token.ranking.isTop100) return "Top 100";
+    if (token.ranking.isTop250) return "Top 250";
+    if (token.ranking.isTop500) return "Top 500";
+    if (token.ranking.isTop1000) return "Top 1000";
+    return null;
+  };
+
+  const highestRank = getHighestRank();
 
   return (
-    <Card className="group hover:border-primary/50 transition-colors duration-300">
-      <CardHeader className="flex flex-row items-center justify-between">
-        <div className="flex items-center gap-2">
-          {token.img_url && (
-            <img 
-              src={token.img_url} 
-              alt={token.name} 
-              className="w-6 h-6 rounded-full"
-            />
-          )}
-          <h3 className="text-lg font-semibold">{token.name}</h3>
-        </div>
-        <a
-          href={getDexscreenerUrl(token.address)}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-muted-foreground hover:text-primary"
-        >
-          <ExternalLink className="h-4 w-4" />
-        </a>
-      </CardHeader>
-      <CardContent className="space-y-4">
-        <div>
-          <p className="text-sm text-muted-foreground">Balance</p>
-          <p className="text-2xl font-bold">
-            {formatBalance(token.balance)}
-          </p>
-        </div>
-        <div className="flex flex-wrap gap-2">
-          {rankBadges.map(({ rank, active }) => (
-            <Badge
-              key={rank}
-              variant={active ? "default" : "outline"}
-              className={active ? "bg-primary/80" : "opacity-50"}
-            >
-              {rank}
-            </Badge>
-          ))}
-        </div>
-      </CardContent>
-    </Card>
+    <a 
+      href={getDexscreenerUrl(token.address)}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="block transition-all hover:scale-[1.02] duration-200"
+    >
+      <Card className="h-full hover:border-primary/50 transition-colors duration-300">
+        <CardHeader className="pb-2">
+          <div className="flex items-center gap-2">
+            {token.img_url && (
+              <img 
+                src={token.img_url} 
+                alt={token.name} 
+                className="w-6 h-6 rounded-full"
+              />
+            )}
+            <h3 className="font-semibold">{token.name}</h3>
+          </div>
+        </CardHeader>
+        <CardContent className="space-y-2">
+          <div className="flex justify-between items-center">
+            <p className="text-lg font-bold">
+              {formatBalance(token.balance)}
+            </p>
+            {highestRank && (
+              <Badge variant="default" className="bg-primary/80">
+                {highestRank}
+              </Badge>
+            )}
+          </div>
+        </CardContent>
+      </Card>
+    </a>
   );
 }
