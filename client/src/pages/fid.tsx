@@ -31,7 +31,10 @@ export default function FidPage() {
 
   const isLoading = isLoadingUser || isLoadingBalances;
   const error = userError || balancesError;
-  const tokenCount = balances?.filter(token => parseFloat(token.balance) > 0).length || 0;
+  const filteredBalances = balances
+    ?.filter(token => parseFloat(token.balance) > 0)
+    .slice(0, 6) || [];
+  const tokenCount = filteredBalances.length;
   const { title, emoji } = getClankerRank(tokenCount);
 
   return (
@@ -65,7 +68,6 @@ export default function FidPage() {
                     <h2 className="text-lg font-bold text-white">
                       {userInfo.display_name} <span className="font-normal text-white/80">(@{userInfo.username})</span>
                     </h2>
-                    {/* Following/Followers */}
                     <div className="flex gap-6 text-white/90 text-xs mt-1">
                       <div className="flex items-center gap-1">
                         <Users className="w-3 h-3" />
@@ -98,8 +100,14 @@ export default function FidPage() {
         {/* Token List */}
         {isLoadingBalances && verifiedAddress ? (
           <TokenList balances={[]} address={verifiedAddress} isLoading={true} />
-        ) : balances && verifiedAddress ? (
-          <TokenList balances={balances} address={verifiedAddress} isLoading={false} />
+        ) : filteredBalances.length > 0 ? (
+          <TokenList balances={filteredBalances} address={verifiedAddress} isLoading={false} />
+        ) : verifiedAddress ? (
+          <Card className="border-primary/20">
+            <CardContent className="p-4 text-center text-muted-foreground">
+              No tokens found for this address.
+            </CardContent>
+          </Card>
         ) : null}
 
         {error && (
