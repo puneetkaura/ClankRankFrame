@@ -1,6 +1,7 @@
 import TokenCard from "./TokenCard";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { TokenBalance } from "@/lib/tokenService";
+import { Card, CardContent } from "@/components/ui/card";
 
 interface TokenListProps {
   balances: TokenBalance[];
@@ -12,8 +13,15 @@ export default function TokenList({ balances, address, isLoading }: TokenListPro
   if (isLoading) {
     return (
       <div className="space-y-4">
+        <Card className="border-none bg-white/10 backdrop-blur-sm">
+          <CardContent className="p-6">
+            <p className="text-sm text-white/60 text-center animate-pulse">
+              Getting Blockchain Data...
+            </p>
+          </CardContent>
+        </Card>
         <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
-          {Array.from({ length: 10 }).map((_, i) => (
+          {Array.from({ length: 6 }).map((_, i) => (
             <div key={i} className="bg-white/10 backdrop-blur-sm rounded-lg p-3">
               <div className="flex flex-col items-center space-y-2">
                 <Skeleton className="h-10 w-10 rounded-full" />
