@@ -6,8 +6,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
 import { getClankerTokenInfoForAddress, fetchUserInfoByFid } from "@/lib/tokenService";
-import { Users, UserCheck } from "lucide-react";
+import { Users, UserCheck, Copy } from "lucide-react";
 import { getClankerRank } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 export default function FidPage() {
   const [, params] = useRoute("/fid/:fid");
@@ -58,27 +59,50 @@ export default function FidPage() {
                 </div>
 
                 {/* Profile Section */}
-                <div className="flex items-center gap-3">
-                  <img 
-                    src={userInfo.pfp_url} 
-                    alt={userInfo.username} 
-                    className="w-14 h-14 rounded-full border-2 border-white/20"
-                  />
-                  <div className="text-left">
-                    <h2 className="text-lg font-bold text-white">
-                      {userInfo.display_name} <span className="font-normal text-white/80">(@{userInfo.username})</span>
-                    </h2>
-                    <div className="flex gap-6 text-white/90 text-xs mt-1">
-                      <div className="flex items-center gap-1">
-                        <Users className="w-3 h-3" />
-                        <span className="font-medium">{userInfo.follower_count.toLocaleString()}</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <UserCheck className="w-3 h-3" />
-                        <span className="font-medium">{userInfo.following_count.toLocaleString()}</span>
+                <div className="flex flex-col gap-4">
+                  <div className="flex items-center gap-3">
+                    <img 
+                      src={userInfo.pfp_url} 
+                      alt={userInfo.username} 
+                      className="w-14 h-14 rounded-full border-2 border-white/20"
+                    />
+                    <div className="text-left">
+                      <h2 className="text-lg font-bold text-white">
+                        {userInfo.display_name} <span className="font-normal text-white/80">(@{userInfo.username})</span>
+                      </h2>
+                      <div className="flex gap-6 text-white/90 text-xs mt-1">
+                        <div className="flex items-center gap-1">
+                          <Users className="w-3 h-3" />
+                          <span className="font-medium">{userInfo.follower_count.toLocaleString()}</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <UserCheck className="w-3 h-3" />
+                          <span className="font-medium">{userInfo.following_count.toLocaleString()}</span>
+                        </div>
                       </div>
                     </div>
                   </div>
+
+                  {verifiedAddress && (
+                    <div className="flex items-center gap-2 mt-2">
+                      <code className="px-2 py-1 rounded bg-white/10 text-xs text-white/90 flex-1 overflow-x-auto">
+                        {verifiedAddress}
+                      </code>
+                      <Button 
+                        variant="ghost" 
+                        size="icon"
+                        className="h-6 w-6 text-white/80 hover:text-white"
+                        onClick={() => {
+                          navigator.clipboard.writeText(verifiedAddress);
+                          toast({
+                            description: "Address copied to clipboard",
+                          });
+                        }}
+                      >
+                        <Copy className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  )}
                 </div>
               </div>
             </CardContent>
