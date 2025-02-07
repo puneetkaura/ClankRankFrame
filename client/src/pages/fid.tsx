@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useRoute, useLocation } from "wouter";
-import TokenList from "@/components/TokenList";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import ClankRank from "@/components/ClankRank";
@@ -38,8 +37,6 @@ export default function FidPage() {
   });
 
   const error = userError || balancesError;
-  const filteredBalances =
-    balances?.filter((token) => parseFloat(token.balance) > 0).slice(0, 6) || [];
 
   if (isLoadingUser) {
     return (
@@ -99,40 +96,8 @@ export default function FidPage() {
           userInfo={userInfo}
           balances={balances || []}
           isLoading={isLoadingBalances}
-          verifiedAddress={verifiedAddress}
+          verifiedAddress={verifiedAddress!}
         />
-
-        {/* Token List Section */}
-        {isLoadingBalances ? (
-          <div className="space-y-4">
-            <Card className="border-none bg-white/10 backdrop-blur-sm">
-              <CardContent className="p-6">
-                <p className="text-sm text-white/60 text-center animate-pulse">
-                  Getting Blockchain Data...
-                </p>
-              </CardContent>
-            </Card>
-            <TokenList balances={[]} address={verifiedAddress!} isLoading={true} />
-          </div>
-        ) : filteredBalances.length > 0 ? (
-          <TokenList
-            balances={filteredBalances}
-            address={verifiedAddress!}
-            isLoading={false}
-          />
-        ) : (
-          <Card className="border-none bg-white/10 backdrop-blur-sm">
-            <CardContent className="p-8 text-center">
-              <div className="text-4xl mb-4">🔍</div>
-              <h3 className="text-xl font-bold text-white mb-2">No Tokens Found</h3>
-              <p className="text-white/60">
-                Looks like this wallet is as empty as a penguin's refrigerator!
-                <br />
-                Time to start collecting some tokens? 🎯
-              </p>
-            </CardContent>
-          </Card>
-        )}
       </div>
     </div>
   );
