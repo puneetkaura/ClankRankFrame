@@ -42,7 +42,7 @@ export default function FidPage() {
             ClankRank Dashboard
           </h1>
 
-          {!isLoading && balances && (
+          {!isLoading && (
             <div className="flex flex-col items-center gap-4">
               <div className="text-4xl mb-2">{emoji}</div>
               <h2 className="text-2xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
@@ -53,8 +53,10 @@ export default function FidPage() {
               </p>
             </div>
           )}
+        </div>
 
-          {userInfo && (
+        {userInfo && (
+          <div className="text-center">
             <div className="flex flex-col items-center gap-6">
               <div className="flex items-center gap-4">
                 <img src={userInfo.pfp_url} alt={userInfo.username} className="w-16 h-16 rounded-full border-2 border-primary/20" />
@@ -87,8 +89,8 @@ export default function FidPage() {
                 </p>
               )}
             </div>
-          )}
-        </div>
+          </div>
+        )}
 
         {isLoading ? (
           <TokenList balances={[]} address={verifiedAddress || ''} isLoading={true} />
