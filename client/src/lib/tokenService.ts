@@ -55,7 +55,7 @@ export interface FarcasterResponse {
 export interface TokenThreshold {
   name: string;
   decimals: number;
-  img_url?: string;
+  img_url: string;
   amt_for_1000_top_holder: number;
   amt_for_500_top_holder: number;
   amt_for_250_top_holder: number;
@@ -84,6 +84,7 @@ export interface TokenBalance {
 export const TOP_CLANKER_HOLDING_THRESHOLD: Record<string, TokenThreshold> = {
   "0x2f6c17fa9f9bC3600346ab4e48C0701e1d5962AE": {
     "name": "Fartcoin",
+    "img_url": "https://token-media.defined.fi/8453_0x2f6c17fa9f9bc3600346ab4e48c0701e1d5962ae_1738610042_small.png",
     "decimals": 18,
     "amt_for_1000_top_holder": 4880000,
     "amt_for_500_top_holder": 20000000,
@@ -95,6 +96,7 @@ export const TOP_CLANKER_HOLDING_THRESHOLD: Record<string, TokenThreshold> = {
   },
   "0x1bc0c42215582d5A085795f4baDbaC3ff36d1Bcb": {
     "name": "CLANKER",
+    "img_url": "https://token-media.defined.fi/8453_0x1bc0c42215582d5a085795f4badbac3ff36d1bcb_1738347350_small.png",
     "decimals": 18,
     "amt_for_1000_top_holder": 56,
     "amt_for_500_top_holder": 189,
@@ -106,6 +108,7 @@ export const TOP_CLANKER_HOLDING_THRESHOLD: Record<string, TokenThreshold> = {
   },
   "0x22aF33FE49fD1Fa80c7149773dDe5890D3c76F3b": {
     "name": "BNKR",
+    "img_url": "https://token-media.defined.fi/8453_0x22af33fe49fd1fa80c7149773dde5890d3c76f3b_1738462454_small.png",
     "decimals": 18,
     "amt_for_1000_top_holder": 5006000,
     "amt_for_500_top_holder": 16490000,
@@ -117,6 +120,7 @@ export const TOP_CLANKER_HOLDING_THRESHOLD: Record<string, TokenThreshold> = {
   },
   "0x20DD04c17AFD5c9a8b3f2cdacaa8Ee7907385BEF": {
     "name": "NATIVE",
+    "img_url": "https://token-media.defined.fi/8453_0x20dd04c17afd5c9a8b3f2cdacaa8ee7907385bef_1738286103_small.png",
     "decimals": 18,
     "amt_for_1000_top_holder": 4162000,
     "amt_for_500_top_holder": 13570000,
@@ -128,6 +132,7 @@ export const TOP_CLANKER_HOLDING_THRESHOLD: Record<string, TokenThreshold> = {
   },
   "0x2D57C47BC5D2432FEEEdf2c9150162A9862D3cCf": {
     "name": "DICKBUTT",
+    "img_url": "",
     "decimals": 18,
     "amt_for_1000_top_holder": 3449000,
     "amt_for_500_top_holder": 15440000,
@@ -139,6 +144,7 @@ export const TOP_CLANKER_HOLDING_THRESHOLD: Record<string, TokenThreshold> = {
   },
   "0x0fD7a301B51d0A83FCAf6718628174D527B373b6": {
     "name": "LUM",
+    "img_url": "",
     "decimals": 18,
     "amt_for_1000_top_holder": 86,
     "amt_for_500_top_holder": 211,
@@ -150,6 +156,7 @@ export const TOP_CLANKER_HOLDING_THRESHOLD: Record<string, TokenThreshold> = {
   },
   "0x0Db510e79909666d6dEc7f5e49370838c16D950f": {
     "name": "ANON",
+    "img_url": "",
     "decimals": 18,
     "amt_for_1000_top_holder": 71455,
     "amt_for_500_top_holder": 192719,
@@ -161,11 +168,13 @@ export const TOP_CLANKER_HOLDING_THRESHOLD: Record<string, TokenThreshold> = {
   },
   "0x348409fa3651D4Cf8571dB6bDfaAdD3df35987cD": {
     "name": "BILLY",
+    "img_url": "",
     "decimals": 18,
     "amt_for_10_top_holder": 550
   },
   "0x1d008f50FB828eF9DEbBBEAe1B71FfFe929bf317": {
     "name": "CLANKFUN",
+    "img_url": "",
     "decimals": 18,
     "amt_for_1000_top_holder": 1292000,
     "amt_for_500_top_holder": 6526000,
@@ -177,6 +186,7 @@ export const TOP_CLANKER_HOLDING_THRESHOLD: Record<string, TokenThreshold> = {
   },
   "0x20Fd4C5396F7D9686f9997e0F10991957f7112fc": {
     "name": "GDUPI",
+    "img_url": "",
     "decimals": 18,
     "amt_for_1000_top_holder": 2000000,
     "amt_for_500_top_holder": 10450000,
@@ -188,6 +198,7 @@ export const TOP_CLANKER_HOLDING_THRESHOLD: Record<string, TokenThreshold> = {
   },
   "0x275de0c241d52f9f005995b38e285f0ff2101155": {
     "name": "streamm.tv",
+    "img_url": "",
     "decimals": 18,
     "amt_for_500_top_holder": 287672,
     "amt_for_250_top_holder": 8618306,
@@ -198,6 +209,7 @@ export const TOP_CLANKER_HOLDING_THRESHOLD: Record<string, TokenThreshold> = {
   },
   "0x0a8753e39d5805bab0e570dd1974ee43f90799a8": {
     "name": "BARKBARK",
+    "img_url": "",
     "decimals": 18,
     "amt_for_1000_top_holder": 0,
     "amt_for_500_top_holder": 0,
@@ -209,6 +221,7 @@ export const TOP_CLANKER_HOLDING_THRESHOLD: Record<string, TokenThreshold> = {
   },
   "0x06f71fb90f84b35302d132322a3c90e4477333b0": {
     "name": "BRACKY",
+    "img_url": "",
     "decimals": 18,
     "amt_for_1000_top_holder": 0,
     "amt_for_500_top_holder": 882902,
