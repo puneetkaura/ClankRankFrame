@@ -9,11 +9,11 @@ interface TokenListProps {
 }
 
 function getClankerRank(tokenCount: number): { title: string; emoji: string } {
-  if (tokenCount >= 5) {
+  if (tokenCount >= 3) {
     return { title: "Clanker Imperius", emoji: "👑" };
-  } else if (tokenCount >= 3) {
+  } else if (tokenCount === 2) {
     return { title: "Clanker Maximus", emoji: "⚔️" };
-  } else if (tokenCount >= 1) {
+  } else if (tokenCount === 1) {
     return { title: "Clanker Novis", emoji: "⚒️" };
   }
   return { title: "No Tokens", emoji: "🔍" };
