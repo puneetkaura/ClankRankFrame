@@ -45,13 +45,15 @@ export default function TokenCard({ token }: TokenCardProps) {
               />
             )}
             {highestRank && (
-              <Badge 
-                variant="secondary" 
-                className="px-2 py-0.5 bg-primary/20 text-primary-foreground border-none text-[10px] font-medium flex items-center gap-1"
+              <div 
+                className="w-12 h-12 rounded-full bg-primary/20 flex flex-col items-center justify-center p-1"
+                title={highestRank}
               >
-                <Star className="w-3 h-3" />
-                {highestRank}
-              </Badge>
+                <Star className="w-4 h-4 text-primary-foreground" />
+                <span className="text-[8px] font-medium text-primary-foreground leading-tight mt-0.5">
+                  {highestRank.replace('Top ', '')}
+                </span>
+              </div>
             )}
           </div>
           <div className="text-center space-y-1">
