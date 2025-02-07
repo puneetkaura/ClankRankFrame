@@ -68,13 +68,9 @@ export default function Home() {
         </Card>
 
         {isLoading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {[...Array(6)].map((_, i) => (
-              <Skeleton key={i} className="h-[200px] rounded-xl" />
-            ))}
-          </div>
+          <TokenList balances={[]} address={address} isLoading={true} />
         ) : balances ? (
-          <TokenList balances={balances} address={address} />
+          <TokenList balances={balances} address={address} isLoading={false} />
         ) : null}
 
         {balancesError && (

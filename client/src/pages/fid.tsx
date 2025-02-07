@@ -55,13 +55,9 @@ export default function FidPage() {
         </div>
 
         {isLoading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {[...Array(6)].map((_, i) => (
-              <Skeleton key={i} className="h-[200px] rounded-xl" />
-            ))}
-          </div>
+          <TokenList balances={[]} address={verifiedAddress || ''} isLoading={true} />
         ) : balances && verifiedAddress ? (
-          <TokenList balances={balances} address={verifiedAddress} />
+          <TokenList balances={balances} address={verifiedAddress} isLoading={false} />
         ) : null}
 
         {error && (
