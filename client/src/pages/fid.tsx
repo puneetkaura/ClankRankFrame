@@ -106,13 +106,20 @@ export default function FidPage() {
             {/* Profile Section with Rank */}
             <div className="flex flex-col gap-6">
               <div className="flex items-start gap-4">
-                {/* Rank Emoji Section */}
-                <div className="w-14 h-14 rounded-full bg-gradient-to-br from-primary/30 to-primary/10 flex items-center justify-center relative overflow-hidden animate-glitter">
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent glitter-effect"></div>
-                  <span className="text-3xl">{emoji}</span>
+                {/* Left Column - Rank Emoji and Profile Photo */}
+                <div className="flex flex-col gap-4">
+                  <div className="w-14 h-14 rounded-full bg-gradient-to-br from-primary/30 to-primary/10 flex items-center justify-center relative overflow-hidden animate-glitter">
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent glitter-effect"></div>
+                    <span className="text-3xl">{emoji}</span>
+                  </div>
+                  <img
+                    src={userInfo.pfp_url}
+                    alt={userInfo.username}
+                    className="w-14 h-14 rounded-full border-2 border-white/20"
+                  />
                 </div>
 
-                {/* Profile Info */}
+                {/* Right Column - Rank Title and User Info */}
                 <div className="flex-1">
                   {/* Rank Title and Token Count */}
                   <div className="mb-4">
@@ -128,33 +135,26 @@ export default function FidPage() {
                     )}
                   </div>
 
-                  {/* User Profile */}
-                  <div className="flex items-center gap-3">
-                    <img
-                      src={userInfo.pfp_url}
-                      alt={userInfo.username}
-                      className="w-14 h-14 rounded-full border-2 border-white/20"
-                    />
-                    <div>
-                      <h2 className="text-lg font-bold text-white">
-                        {userInfo.display_name}{" "}
-                        <span className="font-normal text-white/80">
-                          (@{userInfo.username})
+                  {/* User Info */}
+                  <div>
+                    <h2 className="text-lg font-bold text-white">
+                      {userInfo.display_name}{" "}
+                      <span className="font-normal text-white/80">
+                        (@{userInfo.username})
+                      </span>
+                    </h2>
+                    <div className="flex gap-6 text-white/90 text-xs mt-1">
+                      <div className="flex items-center gap-1">
+                        <Users className="w-3 h-3" />
+                        <span className="font-medium">
+                          {userInfo.follower_count.toLocaleString()}
                         </span>
-                      </h2>
-                      <div className="flex gap-6 text-white/90 text-xs mt-1">
-                        <div className="flex items-center gap-1">
-                          <Users className="w-3 h-3" />
-                          <span className="font-medium">
-                            {userInfo.follower_count.toLocaleString()}
-                          </span>
-                        </div>
-                        <div className="flex items-center gap-1">
-                          <UserCheck className="w-3 h-3" />
-                          <span className="font-medium">
-                            {userInfo.following_count.toLocaleString()}
-                          </span>
-                        </div>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <UserCheck className="w-3 h-3" />
+                        <span className="font-medium">
+                          {userInfo.following_count.toLocaleString()}
+                        </span>
                       </div>
                     </div>
                   </div>
