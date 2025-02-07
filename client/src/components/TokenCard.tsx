@@ -1,6 +1,6 @@
-import { Card, CardHeader, CardContent } from "@/components/ui/card";
+import { Card, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { formatBalance, getDexscreenerUrl } from "@/lib/formatters";
+import { formatBalance } from "@/lib/formatters";
 import type { TokenBalance } from "@/lib/tokenService";
 
 interface TokenCardProps {
@@ -23,36 +23,36 @@ export default function TokenCard({ token }: TokenCardProps) {
 
   return (
     <a 
-      href={getDexscreenerUrl(token.address)}
+      href={`https://dexscreener.com/base/${token.address}`}
       target="_blank"
       rel="noopener noreferrer"
-      className="block transition-all hover:scale-[1.02] duration-200"
+      className="block transition-transform hover:scale-[1.02] duration-200"
     >
       <Card className="h-full hover:border-primary/50 transition-colors duration-300">
-        <CardHeader className="pb-2">
+        <CardHeader className="space-y-2 p-4">
           <div className="flex items-center gap-2">
             {token.img_url && (
               <img 
                 src={token.img_url} 
                 alt={token.name} 
                 className="w-6 h-6 rounded-full"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.style.display = 'none';
+                }}
               />
             )}
-            <h3 className="font-semibold">{token.name}</h3>
+            <div className="flex items-center justify-between w-full">
+              <span className="font-medium">{token.name}</span>
+              <span className="font-bold text-lg">{formatBalance(token.balance)}</span>
+            </div>
           </div>
+          {highestRank && (
+            <Badge variant="default" className="w-full bg-primary/80 justify-center">
+              {highestRank}
+            </Badge>
+          )}
         </CardHeader>
-        <CardContent className="space-y-2">
-          <div className="flex justify-between items-center">
-            <p className="text-lg font-bold">
-              {formatBalance(token.balance)}
-            </p>
-            {highestRank && (
-              <Badge variant="default" className="bg-primary/80">
-                {highestRank}
-              </Badge>
-            )}
-          </div>
-        </CardContent>
       </Card>
     </a>
   );
