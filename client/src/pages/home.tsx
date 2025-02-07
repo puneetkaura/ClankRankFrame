@@ -4,9 +4,9 @@ import { useLocation, useRoute } from "wouter";
 import AddressInput from "@/components/AddressInput";
 import TokenList from "@/components/TokenList";
 import { Card, CardContent } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
 import { getClankerTokenInfoForAddress, fetchUserInfoByFid } from "@/lib/tokenService";
+import { getClankerRank } from "@/lib/utils";
 
 const DEFAULT_ADDRESS = "0x862687EafbA7a988148Ef563F830E8B66fdDFD8b";
 const DEFAULT_FID = 4003;
@@ -39,17 +39,29 @@ export default function Home() {
   };
 
   const isLoading = isLoadingBalances || isLoadingUser;
+  const tokenCount = balances?.filter(token => parseFloat(token.balance) > 0).length || 0;
+  const { title, emoji } = getClankerRank(tokenCount);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-secondary/20 p-4 md:p-8">
       <div className="max-w-7xl mx-auto space-y-8">
-        <div className="text-center space-y-4">
+        <div className="text-center space-y-6">
           <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
             ClankRank Dashboard
           </h1>
-          <p className="text-muted-foreground text-lg">
-            Analyze EVM address token holdings and rankings
-          </p>
+
+          {!isLoading && (
+            <div className="flex flex-col items-center gap-4">
+              <div className="text-4xl mb-2">{emoji}</div>
+              <h2 className="text-2xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+                {title}
+              </h2>
+              <p className="text-sm text-muted-foreground">
+                Holding {tokenCount} token{tokenCount !== 1 ? 's' : ''}
+              </p>
+            </div>
+          )}
+
           {userInfo && (
             <div className="flex items-center justify-center gap-4">
               <img src={userInfo.pfp_url} alt={userInfo.username} className="w-12 h-12 rounded-full" />

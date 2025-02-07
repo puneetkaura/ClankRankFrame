@@ -8,17 +8,6 @@ interface TokenListProps {
   isLoading?: boolean;
 }
 
-function getClankerRank(tokenCount: number): { title: string; emoji: string } {
-  if (tokenCount >= 3) {
-    return { title: "Clanker Imperius", emoji: "👑" };
-  } else if (tokenCount === 2) {
-    return { title: "Clanker Maximus", emoji: "⚔️" };
-  } else if (tokenCount === 1) {
-    return { title: "Clanker Novis", emoji: "⚒️" };
-  }
-  return { title: "No Tokens", emoji: "🔍" };
-}
-
 export default function TokenList({ balances, address, isLoading }: TokenListProps) {
   if (isLoading) {
     return (
@@ -31,21 +20,8 @@ export default function TokenList({ balances, address, isLoading }: TokenListPro
     );
   }
 
-  const tokenCount = balances.filter(token => parseFloat(token.balance) > 0).length;
-  const { title, emoji } = getClankerRank(tokenCount);
-
   return (
     <div className="space-y-4">
-      <div className="flex flex-col items-center mb-8 text-center">
-        <div className="text-4xl mb-2">{emoji}</div>
-        <h2 className="text-2xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-          {title}
-        </h2>
-        <p className="text-sm text-muted-foreground mt-1">
-          Holding {tokenCount} token{tokenCount !== 1 ? 's' : ''}
-        </p>
-      </div>
-
       <div className="space-y-4">
         <div className="flex justify-between items-center">
           <h3 className="text-xl font-semibold">
