@@ -1,7 +1,5 @@
 import { Card, CardHeader } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { formatBalance } from "@/lib/formatters";
-import { Star } from "lucide-react";
 import type { TokenBalance } from "@/lib/tokenService";
 import { getDexscreenerUrl } from "@/lib/formatters";
 
@@ -11,13 +9,13 @@ interface TokenCardProps {
 
 export default function TokenCard({ token }: TokenCardProps) {
   const getHighestRank = () => {
-    if (token.ranking.isTop10) return "Top 10";
-    if (token.ranking.isTop25) return "Top 25";
-    if (token.ranking.isTop50) return "Top 50";
-    if (token.ranking.isTop100) return "Top 100";
-    if (token.ranking.isTop250) return "Top 250";
-    if (token.ranking.isTop500) return "Top 500";
-    if (token.ranking.isTop1000) return "Top 1000";
+    if (token.ranking.isTop10) return "Top-10";
+    if (token.ranking.isTop25) return "Top-25";
+    if (token.ranking.isTop50) return "Top-50";
+    if (token.ranking.isTop100) return "Top-100";
+    if (token.ranking.isTop250) return "Top-250";
+    if (token.ranking.isTop500) return "Top-500";
+    if (token.ranking.isTop1000) return "Top-1000";
     return null;
   };
 
@@ -46,12 +44,12 @@ export default function TokenCard({ token }: TokenCardProps) {
             )}
             {highestRank && (
               <div 
-                className="w-12 h-12 rounded-full bg-primary/20 flex flex-col items-center justify-center p-1"
+                className="w-14 h-14 rounded-full bg-gradient-to-br from-primary/30 to-primary/10 flex items-center justify-center p-1 relative overflow-hidden animate-glitter"
                 title={highestRank}
               >
-                <Star className="w-4 h-4 text-primary-foreground" />
-                <span className="text-[8px] font-medium text-primary-foreground leading-tight mt-0.5">
-                  {highestRank.replace('Top ', '')}
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent glitter-effect"></div>
+                <span className="text-xs font-bold text-primary-foreground leading-tight">
+                  {highestRank}
                 </span>
               </div>
             )}

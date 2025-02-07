@@ -11,3 +11,21 @@
     @apply font-sans antialiased bg-background text-foreground;
   }
 }
+
+@keyframes glitter {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.animate-glitter {
+  animation: glitter 2s ease-in-out infinite;
+}
+
+.glitter-effect {
+  animation: shimmer 2s linear infinite;
+}
