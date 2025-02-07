@@ -6,6 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
 import { getClankerTokenInfoForAddress, fetchUserInfoByFid } from "@/lib/tokenService";
+import { Users, UserCheck } from "lucide-react";
 
 export default function FidPage() {
   const [, params] = useRoute("/fid/:fid");
@@ -41,16 +42,38 @@ export default function FidPage() {
             Analyze Farcaster user's token holdings
           </p>
           {userInfo && (
-            <div className="flex items-center justify-center gap-4">
-              <img src={userInfo.pfp_url} alt={userInfo.username} className="w-12 h-12 rounded-full" />
-              <div className="text-left">
-                <h2 className="font-semibold">{userInfo.display_name}</h2>
-                <p className="text-sm text-muted-foreground">@{userInfo.username}</p>
+            <div className="flex flex-col items-center gap-6">
+              <div className="flex items-center gap-4">
+                <img src={userInfo.pfp_url} alt={userInfo.username} className="w-16 h-16 rounded-full border-2 border-primary/20" />
+                <div className="text-left">
+                  <h2 className="font-semibold text-xl">{userInfo.display_name}</h2>
+                  <p className="text-muted-foreground">@{userInfo.username}</p>
+                </div>
               </div>
+
+              <div className="flex gap-8 items-center justify-center text-center">
+                <div className="flex items-center gap-2">
+                  <Users className="w-4 h-4 text-primary" />
+                  <div>
+                    <p className="font-semibold">{userInfo.follower_count}</p>
+                    <p className="text-sm text-muted-foreground">Followers</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <UserCheck className="w-4 h-4 text-primary" />
+                  <div>
+                    <p className="font-semibold">{userInfo.following_count}</p>
+                    <p className="text-sm text-muted-foreground">Following</p>
+                  </div>
+                </div>
+              </div>
+
+              {verifiedAddress && (
+                <p className="text-sm text-muted-foreground bg-secondary/50 px-4 py-2 rounded-full">
+                  Verified ETH Address: {verifiedAddress}
+                </p>
+              )}
             </div>
-          )}
-          {verifiedAddress && (
-            <p>Verified ETH Address: {verifiedAddress}</p>
           )}
         </div>
 
