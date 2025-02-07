@@ -39,10 +39,22 @@ export default function FidPage() {
   const error = userError || balancesError;
   const isLoading = isLoadingUser || isLoadingBalances;
 
-  if (isLoadingUser) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-[#8B5CF6] via-[#6366F1] to-[#10B981] p-4 md:p-8">
-        <div className="max-w-7xl mx-auto">
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-[#8B5CF6] via-[#6366F1] to-[#10B981] p-4 md:p-8">
+      <div className="max-w-7xl mx-auto space-y-6">
+        <h1 className="text-3xl md:text-4xl font-bold text-white text-center mb-8">
+          BaseEdge Clanker Rank
+        </h1>
+
+        {error ? (
+          <Card className="border-destructive max-w-xl mx-auto">
+            <CardContent className="p-4 text-center text-destructive">
+              {userError
+                ? "Failed to fetch Farcaster user info. Please try again."
+                : "Failed to fetch token balances. Please try again."}
+            </CardContent>
+          </Card>
+        ) : isLoadingUser ? (
           <Card className="max-w-xl mx-auto bg-white/10 border-none backdrop-blur-sm">
             <CardContent className="p-6">
               <div className="flex flex-col items-center gap-4">
@@ -60,45 +72,14 @@ export default function FidPage() {
               </div>
             </CardContent>
           </Card>
-        </div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-[#8B5CF6] via-[#6366F1] to-[#10B981] p-4 md:p-8">
-        <div className="max-w-7xl mx-auto">
-          <Card className="border-destructive max-w-xl mx-auto">
-            <CardContent className="p-4 text-center text-destructive">
-              {userError
-                ? "Failed to fetch Farcaster user info. Please try again."
-                : "Failed to fetch token balances. Please try again."
-              }
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-    );
-  }
-
-  if (!userInfo || isLoading) {
-    return null;
-  }
-
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-[#8B5CF6] via-[#6366F1] to-[#10B981] p-4 md:p-8">
-      <div className="max-w-7xl mx-auto space-y-6">
-        <h1 className="text-3xl md:text-4xl font-bold text-white text-center mb-8">
-          BaseEdge Clanker Rank
-        </h1>
-
-        <ClankRank
-          userInfo={userInfo}
-          balances={balances || []}
-          isLoading={isLoadingBalances}
-          verifiedAddress={verifiedAddress!}
-        />
+        ) : userInfo ? (
+          <ClankRank
+            userInfo={userInfo}
+            balances={balances || []}
+            isLoading={isLoadingBalances}
+            verifiedAddress={verifiedAddress!}
+          />
+        ) : null}
       </div>
     </div>
   );
