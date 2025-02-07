@@ -80,9 +80,10 @@ export default function FidPage() {
         <div className="max-w-7xl mx-auto">
           <Card className="border-destructive max-w-xl mx-auto">
             <CardContent className="p-4 text-center text-destructive">
-              {userError
+              {userError 
                 ? "Failed to fetch Farcaster user info. Please try again."
-                : "Failed to fetch token balances. Please try again."}
+                : "Failed to fetch token balances. Please try again."
+              }
             </CardContent>
           </Card>
         </div>
@@ -108,42 +109,37 @@ export default function FidPage() {
               <div className="flex flex-col items-center">
                 <div className="text-4xl">{emoji}</div>
                 <h3 className="text-2xl font-bold text-white mt-1">{title}</h3>
-                <p className="text-sm text-white/80">
-                  {tokenCount > 0 ? (
-                    `Holding ${tokenCount} token${tokenCount !== 1 ? 's' : ''}`
-                  ) : (
-                    "No tokens yet"
-                  )}
-                </p>
+                {!isLoadingBalances && (
+                  <p className="text-sm text-white/80">
+                    {tokenCount > 0 ? (
+                      `Holding ${tokenCount} token${tokenCount !== 1 ? 's' : ''}`
+                    ) : (
+                      "No tokens yet"
+                    )}
+                  </p>
+                )}
               </div>
 
               {/* Profile Section */}
               <div className="flex flex-col gap-4">
                 <div className="flex items-center gap-3">
-                  <img
-                    src={userInfo.pfp_url}
-                    alt={userInfo.username}
+                  <img 
+                    src={userInfo.pfp_url} 
+                    alt={userInfo.username} 
                     className="w-14 h-14 rounded-full border-2 border-white/20"
                   />
                   <div className="text-left">
                     <h2 className="text-lg font-bold text-white">
-                      {userInfo.display_name}{" "}
-                      <span className="font-normal text-white/80">
-                        (@{userInfo.username})
-                      </span>
+                      {userInfo.display_name} <span className="font-normal text-white/80">(@{userInfo.username})</span>
                     </h2>
                     <div className="flex gap-6 text-white/90 text-xs mt-1">
                       <div className="flex items-center gap-1">
                         <Users className="w-3 h-3" />
-                        <span className="font-medium">
-                          {userInfo.follower_count.toLocaleString()}
-                        </span>
+                        <span className="font-medium">{userInfo.follower_count.toLocaleString()}</span>
                       </div>
                       <div className="flex items-center gap-1">
                         <UserCheck className="w-3 h-3" />
-                        <span className="font-medium">
-                          {userInfo.following_count.toLocaleString()}
-                        </span>
+                        <span className="font-medium">{userInfo.following_count.toLocaleString()}</span>
                       </div>
                     </div>
                   </div>
@@ -151,7 +147,7 @@ export default function FidPage() {
 
                 {verifiedAddress && (
                   <div className="flex items-center gap-2 mt-2">
-                    <a
+                    <a 
                       href={`https://basescan.org/address/${verifiedAddress}`}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -161,8 +157,8 @@ export default function FidPage() {
                         {verifiedAddress}
                       </code>
                     </a>
-                    <Button
-                      variant="ghost"
+                    <Button 
+                      variant="ghost" 
                       size="icon"
                       className="h-6 w-6 text-white/80 hover:text-white"
                       onClick={() => {

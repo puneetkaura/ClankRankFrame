@@ -9,13 +9,13 @@ interface TokenCardProps {
 
 export default function TokenCard({ token }: TokenCardProps) {
   const getHighestRank = () => {
-    if (token.ranking.isTop10) return "Top-10";
-    if (token.ranking.isTop25) return "Top-25";
-    if (token.ranking.isTop50) return "Top-50";
-    if (token.ranking.isTop100) return "Top-100";
-    if (token.ranking.isTop250) return "Top-250";
-    if (token.ranking.isTop500) return "Top-500";
-    if (token.ranking.isTop1000) return "Top-1000";
+    if (token.ranking.isTop10) return "Top 10";
+    if (token.ranking.isTop25) return "Top 25";
+    if (token.ranking.isTop50) return "Top 50";
+    if (token.ranking.isTop100) return "Top 100";
+    if (token.ranking.isTop250) return "Top 250";
+    if (token.ranking.isTop500) return "Top 500";
+    if (token.ranking.isTop1000) return "Top 1000";
     return null;
   };
 
