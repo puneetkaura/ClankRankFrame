@@ -36,81 +36,72 @@ export default function FidPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#8B5CF6] via-[#6366F1] to-[#10B981] p-4 md:p-8">
-      <div className="max-w-7xl mx-auto space-y-8">
-        <div className="text-center space-y-6">
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-12">
-            Baseedge Clanker Rank
-          </h1>
+      <div className="max-w-7xl mx-auto space-y-6">
+        <h1 className="text-3xl md:text-4xl font-bold text-white text-center mb-8">
+          Baseedge Clanker Rank
+        </h1>
 
-          {userInfo && (
-            <Card className="max-w-2xl mx-auto bg-white/10 border-none backdrop-blur-sm">
-              <CardContent className="p-8">
-                <div className="flex flex-col items-center gap-6">
-                  {/* Clanker Rank Section */}
-                  <div className="flex flex-col items-center gap-2">
-                    <div className="text-5xl">{emoji}</div>
-                    <h3 className="text-3xl font-bold text-white">{title}</h3>
-                    <p className="text-white/80">
-                      Holding {tokenCount} token{tokenCount !== 1 ? 's' : ''}
-                    </p>
-                  </div>
+        {userInfo && (
+          <Card className="max-w-xl mx-auto bg-white/10 border-none backdrop-blur-sm">
+            <CardContent className="p-6">
+              <div className="flex flex-col items-center gap-4">
+                {/* Clanker Rank Section */}
+                <div className="flex flex-col items-center">
+                  <div className="text-4xl">{emoji}</div>
+                  <h3 className="text-2xl font-bold text-white mt-1">{title}</h3>
+                  <p className="text-sm text-white/80">
+                    Holding {tokenCount} token{tokenCount !== 1 ? 's' : ''}
+                  </p>
+                </div>
 
-                  {/* Profile Section */}
-                  <div className="flex items-center gap-4">
-                    <img 
-                      src={userInfo.pfp_url} 
-                      alt={userInfo.username} 
-                      className="w-20 h-20 rounded-full border-4 border-white/20"
-                    />
-                    <div className="text-left">
-                      <h2 className="text-2xl font-bold text-white">{userInfo.display_name}</h2>
-                      <p className="text-white/80">@{userInfo.username}</p>
-                    </div>
-                  </div>
-
-                  {/* Following/Followers */}
-                  <div className="flex gap-8 text-white/90">
-                    <div className="flex items-center gap-2">
-                      <Users className="w-4 h-4" />
-                      <div className="text-sm">
-                        <p className="font-medium">{userInfo.follower_count.toLocaleString()}</p>
-                        <p className="text-white/70">Followers</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <UserCheck className="w-4 h-4" />
-                      <div className="text-sm">
-                        <p className="font-medium">{userInfo.following_count.toLocaleString()}</p>
-                        <p className="text-white/70">Following</p>
-                      </div>
-                    </div>
+                {/* Profile Section */}
+                <div className="flex items-center gap-3">
+                  <img 
+                    src={userInfo.pfp_url} 
+                    alt={userInfo.username} 
+                    className="w-14 h-14 rounded-full border-2 border-white/20"
+                  />
+                  <div className="text-left">
+                    <h2 className="text-lg font-bold text-white">{userInfo.display_name}</h2>
+                    <p className="text-sm text-white/80">@{userInfo.username}</p>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
-          )}
 
-          {isLoading && (
-            <Card className="max-w-2xl mx-auto bg-white/10 border-none backdrop-blur-sm">
-              <CardContent className="p-8">
-                <div className="flex flex-col items-center gap-6">
-                  <div className="flex items-center gap-4">
-                    <Skeleton className="h-20 w-20 rounded-full" />
+                {/* Following/Followers */}
+                <div className="flex gap-6 text-white/90 text-xs">
+                  <div className="flex items-center gap-1">
+                    <Users className="w-3 h-3" />
                     <div>
-                      <Skeleton className="h-8 w-48 mb-2" />
-                      <Skeleton className="h-6 w-32" />
+                      <p className="font-medium">{userInfo.follower_count.toLocaleString()}</p>
+                      <p className="text-white/70">Followers</p>
                     </div>
                   </div>
-                  <div className="flex flex-col items-center gap-2">
-                    <Skeleton className="h-12 w-12 rounded-full" />
-                    <Skeleton className="h-8 w-40" />
-                    <Skeleton className="h-6 w-32" />
+                  <div className="flex items-center gap-1">
+                    <UserCheck className="w-3 h-3" />
+                    <div>
+                      <p className="font-medium">{userInfo.following_count.toLocaleString()}</p>
+                      <p className="text-white/70">Following</p>
+                    </div>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
-          )}
-        </div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {isLoading && (
+          <Card className="max-w-xl mx-auto bg-white/10 border-none backdrop-blur-sm">
+            <CardContent className="p-6">
+              <div className="flex flex-col items-center gap-4">
+                <Skeleton className="h-14 w-14 rounded-full" />
+                <div>
+                  <Skeleton className="h-6 w-36 mb-2" />
+                  <Skeleton className="h-4 w-24" />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
         {/* Token List */}
         {isLoading ? (
@@ -120,7 +111,7 @@ export default function FidPage() {
         ) : null}
 
         {error && (
-          <Card className="border-destructive max-w-2xl mx-auto">
+          <Card className="border-destructive max-w-xl mx-auto">
             <CardContent className="p-4 text-center text-destructive">
               {userError 
                 ? "Failed to fetch Farcaster user info. Please try again."
