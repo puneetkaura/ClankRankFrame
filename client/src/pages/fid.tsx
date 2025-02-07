@@ -43,8 +43,7 @@ export default function FidPage() {
 
   const error = userError || balancesError;
   const filteredBalances =
-    balances?.filter((token) => parseFloat(token.balance) > 0).slice(0, 6) ||
-    [];
+    balances?.filter((token) => parseFloat(token.balance) > 0).slice(0, 6) || [];
   const tokenCount = filteredBalances.length;
   const { title, emoji } = getClankerRank(tokenCount);
 
@@ -107,10 +106,13 @@ export default function FidPage() {
             <div className="flex flex-col items-center gap-4">
               {/* Clanker Rank Section */}
               <div className="flex flex-col items-center">
-                <div className="text-4xl">{emoji}</div>
-                <h3 className="text-2xl font-bold text-white mt-1">{title}</h3>
+                <div className="w-24 h-24 rounded-full bg-gradient-to-br from-primary/30 to-primary/10 flex items-center justify-center p-1 relative overflow-hidden animate-glitter">
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent glitter-effect"></div>
+                  <span className="text-4xl">{emoji}</span>
+                </div>
+                <h3 className="text-2xl font-bold text-white mt-4">{title}</h3>
                 {!isLoadingBalances && (
-                  <p className="text-sm text-white/80">
+                  <p className="text-sm text-white/80 mt-2">
                     {tokenCount > 0 ? (
                       `Holding ${tokenCount} token${tokenCount !== 1 ? 's' : ''}`
                     ) : (
