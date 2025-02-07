@@ -3,6 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { formatBalance } from "@/lib/formatters";
 import { Star } from "lucide-react";
 import type { TokenBalance } from "@/lib/tokenService";
+import { getDexscreenerUrl } from "@/lib/formatters";
 
 interface TokenCardProps {
   token: TokenBalance;
@@ -24,7 +25,7 @@ export default function TokenCard({ token }: TokenCardProps) {
 
   return (
     <a 
-      href={`https://dexscreener.com/base/${token.address}`}
+      href={getDexscreenerUrl(token.address)}
       target="_blank"
       rel="noopener noreferrer"
       className="block transition-transform hover:scale-[1.02] duration-200"
