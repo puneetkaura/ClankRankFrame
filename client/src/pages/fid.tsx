@@ -5,7 +5,10 @@ import TokenList from "@/components/TokenList";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
-import { getClankerTokenInfoForAddress, fetchUserInfoByFid } from "@/lib/tokenService";
+import {
+  getClankerTokenInfoForAddress,
+  fetchUserInfoByFid,
+} from "@/lib/tokenService";
 import { Users, UserCheck, Copy } from "lucide-react";
 import { getClankerRank } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -16,40 +19,53 @@ export default function FidPage() {
   const { toast } = useToast();
   const fid = params?.fid ? parseInt(params.fid) : null;
 
-  const { data: userInfo, isLoading: isLoadingUser, error: userError } = useQuery({
-    queryKey: ['userInfo', fid],
+  const {
+    data: userInfo,
+    isLoading: isLoadingUser,
+    error: userError,
+  } = useQuery({
+    queryKey: ["userInfo", fid],
     queryFn: () => fetchUserInfoByFid(fid!),
     enabled: Boolean(fid),
   });
 
   const verifiedAddress = userInfo?.verified_addresses.eth_addresses[0];
 
-  const { data: balances, isLoading: isLoadingBalances, error: balancesError } = useQuery({
-    queryKey: ['balances', verifiedAddress],
+  const {
+    data: balances,
+    isLoading: isLoadingBalances,
+    error: balancesError,
+  } = useQuery({
+    queryKey: ["balances", verifiedAddress],
     queryFn: () => getClankerTokenInfoForAddress(verifiedAddress!),
     enabled: Boolean(verifiedAddress),
   });
 
-  const isLoading = isLoadingUser || isLoadingBalances;
   const error = userError || balancesError;
-  const filteredBalances = balances
-    ?.filter(token => parseFloat(token.balance) > 0)
-    .slice(0, 6) || [];
+  const filteredBalances =
+    balances?.filter((token) => parseFloat(token.balance) > 0).slice(0, 6) ||
+    [];
   const tokenCount = filteredBalances.length;
   const { title, emoji } = getClankerRank(tokenCount);
 
-  if (isLoading) {
+  if (isLoadingUser) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-[#8B5CF6] via-[#6366F1] to-[#10B981] p-4 md:p-8">
         <div className="max-w-7xl mx-auto">
           <Card className="max-w-xl mx-auto bg-white/10 border-none backdrop-blur-sm">
             <CardContent className="p-6">
-              <div className="flex items-center gap-4">
-                <Skeleton className="h-14 w-14 rounded-full" />
-                <div className="space-y-2">
-                  <Skeleton className="h-5 w-48" />
-                  <Skeleton className="h-4 w-32" />
+              <div className="flex flex-col items-center gap-4">
+                <Skeleton className="h-8 w-48" />
+                <div className="flex items-center gap-4 w-full">
+                  <Skeleton className="h-14 w-14 rounded-full" />
+                  <div className="space-y-2 flex-1">
+                    <Skeleton className="h-5 w-48" />
+                    <Skeleton className="h-4 w-32" />
+                  </div>
                 </div>
+                <p className="text-sm text-white/60 animate-pulse">
+                  Loading Farcaster Profile...
+                </p>
               </div>
             </CardContent>
           </Card>
@@ -64,10 +80,9 @@ export default function FidPage() {
         <div className="max-w-7xl mx-auto">
           <Card className="border-destructive max-w-xl mx-auto">
             <CardContent className="p-4 text-center text-destructive">
-              {userError 
+              {userError
                 ? "Failed to fetch Farcaster user info. Please try again."
-                : "Failed to fetch token balances. Please try again."
-              }
+                : "Failed to fetch token balances. Please try again."}
             </CardContent>
           </Card>
         </div>
@@ -75,7 +90,7 @@ export default function FidPage() {
     );
   }
 
-  if (!userInfo || filteredBalances.length === 0) {
+  if (!userInfo) {
     return null;
   }
 
@@ -83,7 +98,7 @@ export default function FidPage() {
     <div className="min-h-screen bg-gradient-to-br from-[#8B5CF6] via-[#6366F1] to-[#10B981] p-4 md:p-8">
       <div className="max-w-7xl mx-auto space-y-6">
         <h1 className="text-3xl md:text-4xl font-bold text-white text-center mb-8">
-          Baseedge Clanker Rank
+          BaseEdge Clanker Rank
         </h1>
 
         <Card className="max-w-xl mx-auto bg-white/10 border-none backdrop-blur-sm">
@@ -94,30 +109,41 @@ export default function FidPage() {
                 <div className="text-4xl">{emoji}</div>
                 <h3 className="text-2xl font-bold text-white mt-1">{title}</h3>
                 <p className="text-sm text-white/80">
-                  Holding {tokenCount} token{tokenCount !== 1 ? 's' : ''}
+                  {tokenCount > 0 ? (
+                    `Holding ${tokenCount} token${tokenCount !== 1 ? 's' : ''}`
+                  ) : (
+                    "No tokens yet"
+                  )}
                 </p>
               </div>
 
               {/* Profile Section */}
               <div className="flex flex-col gap-4">
                 <div className="flex items-center gap-3">
-                  <img 
-                    src={userInfo.pfp_url} 
-                    alt={userInfo.username} 
+                  <img
+                    src={userInfo.pfp_url}
+                    alt={userInfo.username}
                     className="w-14 h-14 rounded-full border-2 border-white/20"
                   />
                   <div className="text-left">
                     <h2 className="text-lg font-bold text-white">
-                      {userInfo.display_name} <span className="font-normal text-white/80">(@{userInfo.username})</span>
+                      {userInfo.display_name}{" "}
+                      <span className="font-normal text-white/80">
+                        (@{userInfo.username})
+                      </span>
                     </h2>
                     <div className="flex gap-6 text-white/90 text-xs mt-1">
                       <div className="flex items-center gap-1">
                         <Users className="w-3 h-3" />
-                        <span className="font-medium">{userInfo.follower_count.toLocaleString()}</span>
+                        <span className="font-medium">
+                          {userInfo.follower_count.toLocaleString()}
+                        </span>
                       </div>
                       <div className="flex items-center gap-1">
                         <UserCheck className="w-3 h-3" />
-                        <span className="font-medium">{userInfo.following_count.toLocaleString()}</span>
+                        <span className="font-medium">
+                          {userInfo.following_count.toLocaleString()}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -125,7 +151,7 @@ export default function FidPage() {
 
                 {verifiedAddress && (
                   <div className="flex items-center gap-2 mt-2">
-                    <a 
+                    <a
                       href={`https://basescan.org/address/${verifiedAddress}`}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -135,8 +161,8 @@ export default function FidPage() {
                         {verifiedAddress}
                       </code>
                     </a>
-                    <Button 
-                      variant="ghost" 
+                    <Button
+                      variant="ghost"
                       size="icon"
                       className="h-6 w-6 text-white/80 hover:text-white"
                       onClick={() => {
@@ -155,9 +181,36 @@ export default function FidPage() {
           </CardContent>
         </Card>
 
-        {/* Token List */}
-        {filteredBalances.length > 0 && (
-          <TokenList balances={filteredBalances} address={verifiedAddress!} isLoading={false} />
+        {/* Token List Section */}
+        {isLoadingBalances ? (
+          <div className="space-y-4">
+            <Card className="border-none bg-white/10 backdrop-blur-sm">
+              <CardContent className="p-6">
+                <p className="text-sm text-white/60 text-center animate-pulse">
+                  Getting Blockchain Data...
+                </p>
+              </CardContent>
+            </Card>
+            <TokenList balances={[]} address={verifiedAddress!} isLoading={true} />
+          </div>
+        ) : filteredBalances.length > 0 ? (
+          <TokenList
+            balances={filteredBalances}
+            address={verifiedAddress!}
+            isLoading={false}
+          />
+        ) : (
+          <Card className="border-none bg-white/10 backdrop-blur-sm">
+            <CardContent className="p-8 text-center">
+              <div className="text-4xl mb-4">🔍</div>
+              <h3 className="text-xl font-bold text-white mb-2">No Tokens Found</h3>
+              <p className="text-white/60">
+                Looks like this wallet is as empty as a penguin's refrigerator!
+                <br />
+                Time to start collecting some tokens? 🎯
+              </p>
+            </CardContent>
+          </Card>
         )}
       </div>
     </div>
