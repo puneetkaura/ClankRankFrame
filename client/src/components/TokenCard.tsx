@@ -28,7 +28,7 @@ export default function TokenCard({ token }: TokenCardProps) {
       rel="noopener noreferrer"
       className="block transition-transform hover:scale-[1.02] duration-200"
     >
-      <Card className="h-full hover:border-primary/50 transition-colors duration-300">
+      <Card className="bg-white/10 border-none backdrop-blur-sm hover:bg-white/20 transition-colors duration-300">
         <CardHeader className="space-y-2 p-4">
           <div className="flex items-center gap-2">
             {token.img_url && (
@@ -43,12 +43,12 @@ export default function TokenCard({ token }: TokenCardProps) {
               />
             )}
             <div className="flex items-center justify-between w-full">
-              <span className="font-medium">{token.name}</span>
-              <span className="font-bold text-lg">{formatBalance(token.balance)}</span>
+              <span className="font-medium text-white">{token.name}</span>
+              <span className="font-bold text-lg text-white">{formatBalance(token.balance)}</span>
             </div>
           </div>
           {highestRank && (
-            <Badge variant="default" className="w-full bg-primary/80 justify-center">
+            <Badge variant="secondary" className="w-full justify-center bg-white/20 text-white border-none">
               {highestRank}
             </Badge>
           )}
