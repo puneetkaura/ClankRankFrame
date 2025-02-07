@@ -7,6 +7,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
 import { getClankerTokenInfoForAddress, fetchUserInfoByFid } from "@/lib/tokenService";
 import { Users, UserCheck } from "lucide-react";
+import { getClankerRank } from "@/lib/utils";
 
 export default function FidPage() {
   const [, params] = useRoute("/fid/:fid");
@@ -30,17 +31,29 @@ export default function FidPage() {
 
   const isLoading = isLoadingUser || isLoadingBalances;
   const error = userError || balancesError;
+  const tokenCount = balances?.filter(token => parseFloat(token.balance) > 0).length || 0;
+  const { title, emoji } = getClankerRank(tokenCount);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-secondary/20 p-4 md:p-8">
       <div className="max-w-7xl mx-auto space-y-8">
-        <div className="text-center space-y-4">
+        <div className="text-center space-y-6">
           <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
             ClankRank Dashboard
           </h1>
-          <p className="text-muted-foreground text-lg">
-            Analyze Farcaster user's token holdings
-          </p>
+
+          {!isLoading && balances && (
+            <div className="flex flex-col items-center gap-4">
+              <div className="text-4xl mb-2">{emoji}</div>
+              <h2 className="text-2xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+                {title}
+              </h2>
+              <p className="text-sm text-muted-foreground">
+                Holding {tokenCount} token{tokenCount !== 1 ? 's' : ''}
+              </p>
+            </div>
+          )}
+
           {userInfo && (
             <div className="flex flex-col items-center gap-6">
               <div className="flex items-center gap-4">
