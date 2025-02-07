@@ -85,9 +85,16 @@ export default function FidPage() {
 
                   {verifiedAddress && (
                     <div className="flex items-center gap-2 mt-2">
-                      <code className="px-2 py-1 rounded bg-white/10 text-xs text-white/90 flex-1 overflow-x-auto">
-                        {verifiedAddress}
-                      </code>
+                      <a 
+                        href={`https://basescan.org/address/${verifiedAddress}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex-1"
+                      >
+                        <code className="px-2 py-1 rounded bg-white/10 text-xs text-white/90 block overflow-x-auto hover:bg-white/20 transition-colors">
+                          {verifiedAddress}
+                        </code>
+                      </a>
                       <Button 
                         variant="ghost" 
                         size="icon"
