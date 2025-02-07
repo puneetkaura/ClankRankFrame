@@ -19,18 +19,15 @@ export default function TokenList({ balances, address, isLoading }: TokenListPro
               Loading Token Holdings...
             </h3>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+          <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
             {Array.from({ length: 10 }).map((_, i) => (
-              <div key={i} className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
-                <div className="space-y-3">
-                  <div className="flex items-center gap-2">
-                    <Skeleton className="h-6 w-6 rounded-full" />
-                    <div className="flex items-center justify-between w-full">
-                      <Skeleton className="h-4 w-16" />
-                      <Skeleton className="h-4 w-12" />
-                    </div>
+              <div key={i} className="bg-white/10 backdrop-blur-sm rounded-lg p-3">
+                <div className="flex flex-col items-center space-y-2">
+                  <Skeleton className="h-10 w-10 rounded-full" />
+                  <div className="space-y-2 w-full text-center">
+                    <Skeleton className="h-4 w-16 mx-auto" />
+                    <Skeleton className="h-5 w-12 mx-auto" />
                   </div>
-                  <Skeleton className="h-6 w-full" />
                 </div>
               </div>
             ))}
@@ -48,7 +45,7 @@ export default function TokenList({ balances, address, isLoading }: TokenListPro
             Token Holdings for {address.slice(0, 6)}...{address.slice(-4)}
           </h3>
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+        <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
           {balances.map((token) => (
             <TokenCard key={token.address} token={token} />
           ))}
