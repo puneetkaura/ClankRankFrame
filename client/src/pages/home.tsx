@@ -39,7 +39,10 @@ export default function Home() {
   };
 
   const isLoading = isLoadingBalances || isLoadingUser;
-  const tokenCount = balances?.filter(token => parseFloat(token.balance) > 0).length || 0;
+  const filteredBalances = balances
+    ?.filter(token => parseFloat(token.balance) > 0)
+    .slice(0, 6) || [];
+  const tokenCount = filteredBalances.length;
   const { title, emoji } = getClankerRank(tokenCount);
 
   return (
@@ -81,9 +84,15 @@ export default function Home() {
 
         {isLoading ? (
           <TokenList balances={[]} address={address} isLoading={true} />
-        ) : balances ? (
-          <TokenList balances={balances} address={address} isLoading={false} />
-        ) : null}
+        ) : filteredBalances.length > 0 ? (
+          <TokenList balances={filteredBalances} address={address} isLoading={false} />
+        ) : (
+          <Card className="border-primary/20">
+            <CardContent className="p-4 text-center text-muted-foreground">
+              No tokens found for this address.
+            </CardContent>
+          </Card>
+        )}
 
         {balancesError && (
           <Card className="border-destructive">

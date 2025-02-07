@@ -1,6 +1,7 @@
 import { Card, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { formatBalance } from "@/lib/formatters";
+import { Star } from "lucide-react";
 import type { TokenBalance } from "@/lib/tokenService";
 
 interface TokenCardProps {
@@ -45,15 +46,16 @@ export default function TokenCard({ token }: TokenCardProps) {
             {highestRank && (
               <Badge 
                 variant="secondary" 
-                className="px-2 py-0.5 bg-primary/20 text-primary-foreground border-none text-[10px] font-medium"
+                className="px-2 py-0.5 bg-primary/20 text-primary-foreground border-none text-[10px] font-medium flex items-center gap-1"
               >
+                <Star className="w-3 h-3" />
                 {highestRank}
               </Badge>
             )}
           </div>
           <div className="text-center space-y-1">
             <p className="font-medium text-white text-sm">{token.name}</p>
-            <p className="font-bold text-white text-lg">{formatBalance(token.balance)}</p>
+            <p className="text-white text-sm">{formatBalance(token.balance)}</p>
           </div>
         </CardHeader>
       </Card>
