@@ -28,9 +28,9 @@ export default function TokenCard({ token }: TokenCardProps) {
       rel="noopener noreferrer"
       className="block transition-transform hover:scale-[1.02] duration-200"
     >
-      <Card className="bg-white/10 border-none backdrop-blur-sm hover:bg-white/20 transition-colors duration-300">
+      <Card className="bg-white/10 border-none backdrop-blur-sm hover:bg-white/20 transition-colors duration-300 h-full">
         <CardHeader className="space-y-3 p-4">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between min-h-[3.5rem]">
             {token.img_url && (
               <img 
                 src={token.img_url} 

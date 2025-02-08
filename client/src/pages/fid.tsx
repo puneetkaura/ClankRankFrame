@@ -79,7 +79,7 @@ export default function FidPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#8B5CF6] via-[#6366F1] to-[#10B981] p-4 md:p-8">
-      <div className="max-w-7xl mx-auto space-y-6">
+      <div className="max-w-7xl mx-auto lg:max-w-[60%] space-y-6">
         <h1 className="text-3xl md:text-4xl font-bold text-white text-center mb-8">
           BaseEdge Clanker Rank
         </h1>
