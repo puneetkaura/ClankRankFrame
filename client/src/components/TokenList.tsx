@@ -20,7 +20,7 @@ export default function TokenList({ balances, address, isLoading }: TokenListPro
             </p>
           </CardContent>
         </Card>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+        <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
           {Array.from({ length: 6 }).map((_, i) => (
             <div key={i} className="bg-white/10 backdrop-blur-sm rounded-lg p-3">
               <div className="flex flex-col items-center space-y-2">
@@ -39,7 +39,7 @@ export default function TokenList({ balances, address, isLoading }: TokenListPro
 
   return (
     <div className="space-y-4">
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+      <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
         {balances.map((token) => (
           <TokenCard key={token.address} token={token} />
         ))}
