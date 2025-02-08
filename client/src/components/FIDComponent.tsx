@@ -37,22 +37,30 @@ export default function FIDComponent({
   }
 
   return (
-    <div className="space-y-6">
-      {userInfo && (
-        <ProfileSection
-          userInfo={userInfo}
+    // Grid container for desktop layout
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      {/* Profile Section - takes 5 columns on desktop */}
+      <div className="lg:col-span-5">
+        {userInfo && (
+          <ProfileSection
+            userInfo={userInfo}
+            isLoading={isLoading}
+            verifiedAddress={verifiedAddress}
+            rankTitle={title}
+            rankEmoji={emoji}
+            tokenCount={tokenCount}
+          />
+        )}
+      </div>
+
+      {/* Token Section - takes 7 columns on desktop */}
+      <div className="lg:col-span-7">
+        <TokenSection
+          balances={filteredBalances}
           isLoading={isLoading}
-          verifiedAddress={verifiedAddress}
-          rankTitle={title}
-          rankEmoji={emoji}
-          tokenCount={tokenCount}
+          address={verifiedAddress}
         />
-      )}
-      <TokenSection
-        balances={filteredBalances}
-        isLoading={isLoading}
-        address={verifiedAddress}
-      />
+      </div>
     </div>
   );
 }
