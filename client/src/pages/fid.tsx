@@ -1,14 +1,41 @@
 import { useQuery } from "@tanstack/react-query";
 import { useRoute } from "wouter";
+import { useState, useEffect } from "react";
 import FIDComponent from "@/components/FIDComponent";
 import {
   getClankerTokenInfoForAddress,
   fetchUserInfoByFid,
 } from "@/lib/tokenService";
 
+import sdk, { type Context } from "@farcaster/frame-sdk";
+
 export default function FidPage() {
   const [, params] = useRoute("/fid/:fid");
   const fid = params?.fid ? parseInt(params.fid) : null;
+
+  // Add Frame SDK state
+  const [isSDKLoaded, setIsSDKLoaded] = useState(false);
+  const [context, setContext] = useState<Context.FrameContext>();
+  const [isContextOpen, setIsContextOpen] = useState(false);
+
+  // Handle Frame SDK initialization
+  useEffect(() => {
+    const load = async () => {
+      const ctx = await sdk.context;
+      setContext(ctx);
+      if (ctx) {
+        console.log("Frame Context Available:", ctx);
+      } else {
+        console.log("Frame Context Not Available");
+      }
+      sdk.actions.ready();
+    };
+
+    if (sdk && !isSDKLoaded) {
+      setIsSDKLoaded(true);
+      load();
+    }
+  }, [isSDKLoaded]);
 
   const {
     data: userInfo,
