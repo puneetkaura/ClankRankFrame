@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useRoute } from "wouter";
+import { useRoute, useLocation } from "wouter";
 import { useState, useEffect } from "react";
 import FIDComponent from "@/components/FIDComponent";
 import {
@@ -11,23 +11,39 @@ import sdk, { type Context } from "@farcaster/frame-sdk";
 
 export default function FidPage() {
   const [, params] = useRoute("/fid/:fid");
-  const fid = params?.fid ? parseInt(params.fid) : null;
+  const [, setLocation] = useLocation();
+  const urlFid = params?.fid ? parseInt(params.fid) : null;
 
   // Add Frame SDK state
   const [isSDKLoaded, setIsSDKLoaded] = useState(false);
   const [context, setContext] = useState<Context.FrameContext>();
-  const [isContextOpen, setIsContextOpen] = useState(false);
+  const [activeFid, setActiveFid] = useState<number | null>(null);
 
-  // Handle Frame SDK initialization
+  // Handle Frame SDK initialization and FID selection
   useEffect(() => {
     const load = async () => {
       const ctx = await sdk.context;
       setContext(ctx);
+
       if (ctx) {
         console.log("Frame Context Available:", ctx);
+        // If we have a FID in context, use that
+        if (ctx.fid) {
+          console.log("Using FID from Frame context:", ctx.fid);
+          setActiveFid(ctx.fid);
+          // Update URL to match context FID if different
+          if (urlFid !== ctx.fid) {
+            setLocation(`/fid/${ctx.fid}`);
+          }
+        } else {
+          console.log("No FID in Frame context, falling back to URL parameter");
+          setActiveFid(urlFid);
+        }
       } else {
-        console.log("Frame Context Not Available");
+        console.log("Frame Context Not Available, using URL parameter");
+        setActiveFid(urlFid);
       }
+
       sdk.actions.ready();
     };
 
@@ -35,16 +51,16 @@ export default function FidPage() {
       setIsSDKLoaded(true);
       load();
     }
-  }, [isSDKLoaded]);
+  }, [isSDKLoaded, urlFid, setLocation]);
 
   const {
     data: userInfo,
     isLoading: isLoadingUser,
     error: userError,
   } = useQuery({
-    queryKey: ["userInfo", fid],
-    queryFn: () => fetchUserInfoByFid(fid!),
-    enabled: Boolean(fid),
+    queryKey: ["userInfo", activeFid],
+    queryFn: () => fetchUserInfoByFid(activeFid!),
+    enabled: Boolean(activeFid),
   });
 
   const verifiedAddress = userInfo?.verified_addresses.eth_addresses[0];
