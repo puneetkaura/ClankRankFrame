@@ -38,9 +38,9 @@ export default function FIDComponent({
 
   return (
     // Grid container for desktop layout
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:min-h-[600px]">
       {/* Profile Section - takes 5 columns on desktop */}
-      <div className="lg:col-span-5">
+      <div className="lg:col-span-5 lg:h-full">
         {userInfo && (
           <ProfileSection
             userInfo={userInfo}
@@ -54,7 +54,7 @@ export default function FIDComponent({
       </div>
 
       {/* Token Section - takes 7 columns on desktop */}
-      <div className="lg:col-span-7">
+      <div className="lg:col-span-7 lg:h-full">
         <TokenSection
           balances={filteredBalances}
           isLoading={isLoading}

@@ -42,17 +42,12 @@ export default function TokenCard({ token }: TokenCardProps) {
                 }}
               />
             )}
-            {highestRank && (
-              <div 
-                className="w-14 h-14 rounded-full bg-gradient-to-br from-primary/30 to-primary/10 flex items-center justify-center p-1 relative overflow-hidden animate-glitter"
-                title={highestRank}
-              >
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent glitter-effect"></div>
-                <span className="text-xs font-bold text-primary-foreground leading-tight">
-                  {highestRank}
-                </span>
-              </div>
-            )}
+            <div className="w-14 h-14 rounded-full bg-gradient-to-br from-primary/30 to-primary/10 flex items-center justify-center p-1 relative overflow-hidden animate-glitter">
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent glitter-effect"></div>
+              <span className="text-xs font-bold text-primary-foreground leading-tight">
+                {highestRank || "Hold"}
+              </span>
+            </div>
           </div>
           <div className="text-center space-y-1">
             <p className="font-medium text-white text-sm">{token.name}</p>
