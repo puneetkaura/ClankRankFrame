@@ -1,6 +1,5 @@
-import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { useRoute, useLocation } from "wouter";
+import { useRoute } from "wouter";
 import FIDComponent from "@/components/FIDComponent";
 import {
   getClankerTokenInfoForAddress,
@@ -9,7 +8,6 @@ import {
 
 export default function FidPage() {
   const [, params] = useRoute("/fid/:fid");
-  const [, setLocation] = useLocation();
   const fid = params?.fid ? parseInt(params.fid) : null;
 
   const {
