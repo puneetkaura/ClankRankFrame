@@ -27,13 +27,13 @@ export default function FidPage() {
 
       if (ctx) {
         console.log("Frame Context Available:", ctx);
-        // If we have a FID in context, use that
-        if (ctx.fid) {
-          console.log("Using FID from Frame context:", ctx.fid);
-          setActiveFid(ctx.fid);
+        // If we have a FID in context.user, use that
+        if (ctx.user?.fid) {
+          console.log("Using FID from Frame context:", ctx.user.fid);
+          setActiveFid(ctx.user.fid);
           // Update URL to match context FID if different
-          if (urlFid !== ctx.fid) {
-            setLocation(`/fid/${ctx.fid}`);
+          if (urlFid !== ctx.user.fid) {
+            setLocation(`/fid/${ctx.user.fid}`);
           }
         } else {
           console.log("No FID in Frame context, falling back to URL parameter");
