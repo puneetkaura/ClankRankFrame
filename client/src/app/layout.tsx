@@ -11,6 +11,11 @@ export const metadata: Metadata = {
   title: 'Farcaster Analytics Platform',
   description: 'Dynamic and interactive Web3 data exploration for the Farcaster ecosystem',
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://clankrank-baseedge.replit.app'),
+  other: {
+    'fc:frame': 'vNext',
+    'fc:frame:button:1': "Calculate Clank Rank",
+    'fc:frame:input:text': "Enter FID",
+  }
 }
 
 export default function RootLayout({
@@ -19,12 +24,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <head>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      </head>
-      <body className={inter.className}>
+    <html lang="en" suppressHydrationWarning>
+      <body className={inter.className} suppressHydrationWarning>
         <QueryClientProvider client={queryClient}>
           {children}
           <Toaster />

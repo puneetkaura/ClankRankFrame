@@ -23,27 +23,23 @@ export async function generateMetadata(
     console.error("Error fetching user info for metadata:", error);
   }
 
-  // Frame metadata configuration
-  const frameMetadata = {
-    title: userInfo ? `ClankRank - ${userInfo.display_name}` : `ClankRank - FID ${fid}`,
-    description: "View your Farcaster token holdings and Clank Rank",
-    image: `${appUrl}/api/og?fid=${fid}`,
-    postUrl: `${appUrl}/api/frame?fid=${fid}`,
-  };
+  const title = userInfo ? `ClankRank - ${userInfo.display_name}` : `ClankRank - FID ${fid}`;
+  const description = "View your Farcaster token holdings and Clank Rank";
+  const image = `${appUrl}/api/og?fid=${fid}`;
+  const postUrl = `${appUrl}/api/frame?fid=${fid}`;
 
   return {
-    title: frameMetadata.title,
-    description: frameMetadata.description,
+    title,
+    description,
     openGraph: {
-      title: frameMetadata.title,
-      description: frameMetadata.description,
-      images: [{ url: frameMetadata.image }],
+      title,
+      description,
+      images: [{ url: image }],
     },
     other: {
-      // Farcaster Frame meta tags
       'fc:frame': 'vNext',
-      'fc:frame:image': frameMetadata.image,
-      'fc:frame:post_url': frameMetadata.postUrl,
+      'fc:frame:image': image,
+      'fc:frame:post_url': postUrl,
       'fc:frame:button:1': "Calculate Clank Rank",
       'fc:frame:input:text': "Enter FID",
       'fc:frame:state': params.fid,
