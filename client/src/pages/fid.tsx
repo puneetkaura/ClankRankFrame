@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { useQuery } from "@tanstack/react-query";
 import { useRoute, useLocation } from "wouter";
 import { useState, useEffect } from "react";
@@ -8,6 +9,35 @@ import {
 } from "@/lib/tokenService";
 
 import sdk, { type Context } from "@farcaster/frame-sdk";
+
+const appUrl = "https://clankrank-baseedge.replit.app/fid/4003";
+const frame = {
+  version: "next",
+  imageUrl: `https://picsum.photos/200/300`,
+  button: {
+    title: "Calculate Clank Rank",
+    action: {
+      type: "launch_frame",
+      name: "Farcaster Frames v2 Demo",
+      url: appUrl,
+      splashImageUrl: `https://picsum.photos/seed/picsum/200/300`,
+      splashBackgroundColor: "#f7f7f7",
+    },
+  },
+};
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: "ClankRank v1 Demo",
+    openGraph: {
+      title: "ClankRank v1 Demo",
+      description: "ClankRank v1 Demo",
+    },
+    other: {
+      "fc:frame": JSON.stringify(frame),
+    },
+  };
+}
 
 export default function FidPage() {
   const [, params] = useRoute("/fid/:fid");
