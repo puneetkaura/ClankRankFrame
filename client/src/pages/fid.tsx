@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import { useQuery } from "@tanstack/react-query";
 import { useRoute, useLocation } from "wouter";
 import { useState, useEffect } from "react";
@@ -25,19 +24,6 @@ const frame = {
     },
   },
 };
-
-export async function generateMetadata(): Promise<Metadata> {
-  return {
-    title: "ClankRank v1 Demo",
-    openGraph: {
-      title: "ClankRank v1 Demo",
-      description: "ClankRank v1 Demo",
-    },
-    other: {
-      "fc:frame": JSON.stringify(frame),
-    },
-  };
-}
 
 export default function FidPage() {
   const [, params] = useRoute("/fid/:fid");
