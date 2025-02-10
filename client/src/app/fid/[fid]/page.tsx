@@ -1,4 +1,4 @@
-import { Metadata, ResolvingMetadata } from "next";
+import { Metadata } from "next";
 import { FIDComponent } from "@/components/FIDComponent";
 import {
   getClankerTokenInfoForAddress,
@@ -9,46 +9,51 @@ type Props = {
   params: { fid: string }
 }
 
-const appUrl = "https://clankrank-baseedge.replit.app";
-
 export async function generateMetadata(
   { params }: Props,
-  parent: ResolvingMetadata
 ): Promise<Metadata> {
   const fid = parseInt(params.fid);
-  
-  const frame = {
-    version: "vNext",
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://clankrank-baseedge.replit.app";
+
+  // Fetch user data for dynamic metadata
+  let userInfo = null;
+  try {
+    userInfo = await fetchUserInfoByFid(fid);
+  } catch (error) {
+    console.error("Error fetching user info for metadata:", error);
+  }
+
+  // Frame metadata configuration
+  const frameMetadata = {
+    title: userInfo ? `ClankRank - ${userInfo.display_name}` : `ClankRank - FID ${fid}`,
+    description: "View your Farcaster token holdings and Clank Rank",
     image: `${appUrl}/api/og?fid=${fid}`,
-    buttons: [
-      {
-        label: "Calculate Clank Rank",
-        action: "post"
-      }
-    ],
-    postUrl: `${appUrl}/api/frame?fid=${fid}`
+    postUrl: `${appUrl}/api/frame?fid=${fid}`,
   };
 
   return {
-    title: `ClankRank - FID ${fid}`,
-    description: "View your Farcaster token holdings and Clank Rank",
+    title: frameMetadata.title,
+    description: frameMetadata.description,
     openGraph: {
-      title: `ClankRank - FID ${fid}`,
-      description: "View your Farcaster token holdings and Clank Rank",
-      images: [{ url: frame.image }],
+      title: frameMetadata.title,
+      description: frameMetadata.description,
+      images: [{ url: frameMetadata.image }],
     },
     other: {
-      "fc:frame": "vNext",
-      "fc:frame:image": frame.image,
-      "fc:frame:button:1": frame.buttons[0].label,
-      "fc:frame:post_url": frame.postUrl,
+      // Farcaster Frame meta tags
+      'fc:frame': 'vNext',
+      'fc:frame:image': frameMetadata.image,
+      'fc:frame:post_url': frameMetadata.postUrl,
+      'fc:frame:button:1': "Calculate Clank Rank",
+      'fc:frame:input:text': "Enter FID",
+      'fc:frame:state': params.fid,
     },
   };
 }
 
 export default async function FidPage({ params }: Props) {
   const fid = parseInt(params.fid);
-  
+
   try {
     const userInfo = await fetchUserInfoByFid(fid);
     const verifiedAddress = userInfo?.verified_addresses.eth_addresses[0];
