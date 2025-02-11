@@ -101,6 +101,7 @@ export default function FidPage() {
         </h1>
 
         <FIDComponent
+          className="fid-container"
           userInfo={userInfo || null}
           balances={balances || null}
           isLoading={isLoading}
