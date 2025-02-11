@@ -81,7 +81,7 @@ export async function setupVite(app: Express, server: Server) {
       // Create the dynamic frame content
       const frameContent = {
         version: "next",
-        imageUrl: "https://picsum.photos/200/300",
+        imageUrl: "https://res.cloudinary.com/dnqhpn1ny/image/upload/v1739269748/screenshot_jyfjyh.jpg",
         button: {
           title: "Launch Clank Rank",
           action: {
@@ -106,7 +106,7 @@ export async function setupVite(app: Express, server: Server) {
         `src="/src/main.tsx?v=${nanoid()}"`,
       );
 
-      const page = await vite.transformIndexHtml(url, template);
+      const page = await vite.transformIndexHtml(req.originalUrl, template);
       res.status(200).set({ "Content-Type": "text/html" }).end(page);
     } catch (e) {
       vite.ssrFixStacktrace(e as Error);
