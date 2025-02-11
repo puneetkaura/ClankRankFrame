@@ -6,7 +6,7 @@ import {
   getClankerTokenInfoForAddress,
   fetchUserInfoByFid,
 } from "@/lib/tokenService";
-
+import ButtonGroup from "@/components/ButtonGroup";
 import sdk, { type Context } from "@farcaster/frame-sdk";
 import ShareButton from "@/components/ShareButton";
 
@@ -111,7 +111,11 @@ export default function FidPage() {
           }}
         />
       </div>
-      <ShareButton />
+      {activeFid && (
+        <div className="absolute bottom-4 right-4">
+          <ButtonGroup fid={activeFid} />
+        </div>
+      )}
     </div>
   );
 }
