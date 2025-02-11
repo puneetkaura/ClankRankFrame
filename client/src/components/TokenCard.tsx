@@ -46,7 +46,6 @@ export default function TokenCard({ token }: TokenCardProps) {
           <p className="font-bold text-white text-sm">{token.name}</p>
           {/* Token Balance and Highest Rank */}
           <div className="flex items-center justify-center space-x-2">
-            <p className="text-white text-xs">{formatBalance(token.balance)}</p>
             {/* Highest Rank */}
             {highestRank && (
               <span className="font-semibold bg-primary text-white text-xs px-2 py-1 rounded-full">

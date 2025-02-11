@@ -98,7 +98,10 @@ export default function FIDComponent({
             tokenCount={tokenCount}
           />
         )}
+        
       </div>
+      
+      
 
       {/* Token Section - takes 7 columns on desktop */}
       <div className="lg:col-span-7 lg:h-full">
@@ -108,6 +111,7 @@ export default function FIDComponent({
           address={verifiedAddress}
         />
       </div>
+      
     </div>
   );
 }

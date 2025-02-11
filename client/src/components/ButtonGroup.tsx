@@ -7,7 +7,7 @@ type Props = {
 
 const ButtonGroup = ({ fid }: Props) => {
   return (
-    <div className="button-group flex gap-4 float-right">
+    <div className="button-group flex gap-4 float-right my-4">
       <PostButton fid={fid} />
       <ShareButton />
     </div>

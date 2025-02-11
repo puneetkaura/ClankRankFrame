@@ -113,7 +113,11 @@ export default function FidPage() {
       </div>
       {activeFid && (
         <div className="absolute bottom-4 right-4">
+
           <ButtonGroup fid={activeFid} />
+          <div className="text-right text-gray-300 text-xs secondary-font">
+            By Baseedge. Join waitlist for early access.
+          </div>
         </div>
       )}
     </div>

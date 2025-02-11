@@ -46,4 +46,9 @@
 
 .share-button {
   @apply bg-blue-500 text-white hover:bg-blue-700;
+  transition: transform 0.4s ease-in-out;
+}
+
+.share-button:hover {
+  transform: scale(1.05);
 }
