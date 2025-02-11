@@ -8,6 +8,7 @@ import {
 } from "@/lib/tokenService";
 
 import sdk, { type Context } from "@farcaster/frame-sdk";
+import ShareButton from "@/components/ShareButton";
 
 const appUrl = "https://clankrank-baseedge.replit.app/fid/4003";
 const frame = {
@@ -93,6 +94,7 @@ export default function FidPage() {
 
   const isLoading = isLoadingUser || (verifiedAddress && isLoadingBalances);
 
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#8B5CF6] via-[#6366F1] to-[#10B981] p-4 md:p-8">
       <div className="max-w-7xl mx-auto lg:max-w-[60%] space-y-6">
@@ -111,6 +113,7 @@ export default function FidPage() {
           }}
         />
       </div>
+      <ShareButton />
     </div>
   );
 }

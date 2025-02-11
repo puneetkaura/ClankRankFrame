@@ -34,3 +34,22 @@
 .glitter-effect {
   animation: shimmer 2s linear infinite;
 }
+
+/* Add this to your CSS file */
+.share-button {
+  position: fixed;
+  bottom: 20px; /* Adjust as needed */
+  right: 20px; /* Adjust as needed */
+  background-color: #4f3c86; /* Updated to a darker purple color */
+  color: #ffffff; /* Ensure text color is consistent */
+  padding: 12px 24px; /* Adjusted padding for consistency */
+  border-radius: 8px; /* Slightly larger rounded corners */
+  text-decoration: none; /* Remove underline */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Enhanced shadow effect */
+  font-family: 'Poppins', sans-serif; /* Match font family */
+  font-weight: 800;
+}
+
+.share-button:hover {
+  background-color: #4a3a6d; /* Darker shade of purple on hover */
+}
