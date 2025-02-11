@@ -1,5 +1,6 @@
 // client/src/components/ShareButton.js
 import React from "react";
+import { FaShareAlt } from "react-icons/fa";
 import "../index.css"; // Import the CSS file
 
 
@@ -13,7 +14,8 @@ const ShareButton = () => {
 
     return (
     <div className="share-button">
-      <a href={shareURL} target="_blank" rel="noopener noreferrer">
+      <a href={shareURL} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center' }}>
+        <FaShareAlt /> &nbsp;
         Share with frens!
       </a>
     </div>
