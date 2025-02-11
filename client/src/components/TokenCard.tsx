@@ -29,29 +29,30 @@ export default function TokenCard({ token }: TokenCardProps) {
       className="block transition-transform hover:scale-[1.02] duration-200"
     >
       <Card className="bg-white/10 border-none backdrop-blur-sm hover:bg-white/20 transition-colors duration-300 h-full">
-        <CardHeader className="space-y-3 p-4">
-          <div className="flex items-center justify-between min-h-[3.5rem]">
-            {token.img_url && (
-              <img 
-                src={token.img_url} 
-                alt={token.name} 
-                className="w-8 h-8 rounded-full"
-                onError={(e) => {
-                  const target = e.target as HTMLImageElement;
-                  target.style.display = 'none';
-                }}
-              />
-            )}
-            <div className="w-14 h-14 rounded-full bg-gradient-to-br from-primary/30 to-primary/10 flex items-center justify-center p-1 relative overflow-hidden animate-glitter">
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent glitter-effect"></div>
-              <span className="text-xs font-bold text-primary-foreground leading-tight">
-                {highestRank || "Hold"}
+        <CardHeader className="space-y-3 p-4 text-center">
+          {/* Token Image */}
+          {token.img_url && (
+            <img 
+              src={token.img_url} 
+              alt={token.name} 
+              className="w-16 h-16 rounded-full mx-auto"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.style.display = 'none';
+              }}
+            />
+          )}
+          {/* Token Name */}
+          <p className="font-bold text-white text-sm">{token.name}</p>
+          {/* Token Balance and Highest Rank */}
+          <div className="flex items-center justify-center space-x-2">
+            <p className="text-white text-xs">{formatBalance(token.balance)}</p>
+            {/* Highest Rank */}
+            {highestRank && (
+              <span className="font-semibold bg-primary text-white text-xs px-2 py-1 rounded-full">
+                {highestRank}
               </span>
-            </div>
-          </div>
-          <div className="text-center space-y-1">
-            <p className="font-medium text-white text-sm">{token.name}</p>
-            <p className="text-white text-sm">{formatBalance(token.balance)}</p>
+            )}
           </div>
         </CardHeader>
       </Card>
