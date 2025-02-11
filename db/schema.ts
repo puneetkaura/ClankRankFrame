@@ -16,7 +16,7 @@ export const users = pgTable("users", {
 });
 
 export const fidMapping = pgTable("fid_mapping", {
-  fid: integer("fid").notNull(),
+  fid: integer("fid").notNull().unique(),
   imageUrl: text("image_url").notNull(),
   created: timestamp("created").defaultNow().notNull(),
   updated: timestamp("updated").defaultNow().notNull(),

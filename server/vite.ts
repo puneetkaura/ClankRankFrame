@@ -1,5 +1,6 @@
 import express, { type Express } from "express";
 import { EventEmitter } from 'events'; 
+import { fidMapping } from "../db/schema";
 import fs from "fs";
 import path, { dirname } from "path";
 import { fileURLToPath } from "url";
@@ -11,6 +12,16 @@ import viteConfig from "../vite.config";
 import { nanoid } from "nanoid";
 import {db} from "../db/index";
 import { eq } from "drizzle-orm";
+import screenshotone from "screenshotone-api-sdk";
+import { v2 as cloudinary } from 'cloudinary';
+
+cloudinary.config({ 
+  cloud_name: 'dnqhpn1ny', 
+  api_key: '957231234939496', 
+  api_secret: 'benC3Va4UeiA9xLSzioH8Cj8Uvc' 
+});
+
+const client = new screenshotone.Client("M45HffCLNzN-Kg","uynV31HftJi1Pw");
 
 
 const viteLogger = createLogger();
@@ -19,18 +30,29 @@ const viteLogger = createLogger();
 const taskEmitter = new EventEmitter();
 
 taskEmitter.on('takeScreenshot', async ({ url }: { url: string }) => {
+    const logWithTime = (msg: string) => {
+      const time = new Date().toISOString();
+      console.log(`[${time}][EventHandler] ${msg}`);
+    };
+    logWithTime(`Starting screenshot task for URL: ${url}`);
+    // return
     try {
       const pathSegments = url.split('/');
-
-        try {
+      let fid = null;
+      try {
           if (pathSegments[1] === "fid" && pathSegments[2]) {
-              const fid = pathSegments[2]; // Extract the fid from the URL
-              console.log(`Extracted fid: ${fid}`);
+              fid = pathSegments[2]; // Extract the fid from the URL
+              logWithTime(`Extracted fid: ${fid}`);          
           }
-        } catch (error:unknown) {
-            console.error('Error processing URL:', pathSegments.join('/'));
+        } catch (error:unknown) {            
+            logWithTime(`Error processing URL: ${pathSegments.join('/')}`);
             return
-        }
+      }
+        // check if the fid is a number
+      if (isNaN(Number(fid))) {        
+          logWithTime(`Invalid fid: ${fid}`);
+          return;
+      }
 
       const fidNumber = 4003; // example fid
       const result = await db.query.fidMapping.findFirst({
@@ -38,10 +60,54 @@ taskEmitter.on('takeScreenshot', async ({ url }: { url: string }) => {
       });
       
       if (result) {
-        console.log('Found record:', result);
+        logWithTime(`Found record: ${result}`);        
       } else {
-        console.log('No record found for fid:', fidNumber);
-      }
+        logWithTime(`No record found for fid ${fidNumber}`);
+        
+        const targetUrl = `https://clankrank-baseedge.replit.app/fid/${fid}`;
+
+        // Set up options using SDK
+        const options = screenshotone.TakeOptions.url(targetUrl)
+            .format('jpg')
+            .blockAds(true)
+            .blockCookieBanners(true)
+            .blockBannersByHeuristics(false)
+            .blockTrackers(true)
+            .delay(0)
+            .timeout(60)
+            .selector('#fid-container')
+            .imageQuality(80);
+
+        const screenshot_url = client.generateTakeURL(options);
+        console.log(screenshot_url);
+        // Download the screenshot
+        const imageBlob = await client.take(options);
+        const buffer = Buffer.from(await imageBlob.arrayBuffer());
+
+        // // Save the file with FID in name
+        const filename = `screenshot_${fid}.jpg`;
+        fs.writeFileSync(filename, buffer);
+        logWithTime(`Screenshot saved as ${filename}`);
+
+        // Upload to Cloudinary
+        try {
+          const filename = `screenshot_${fid}.jpg`;
+          const cloudinaryResponse = await cloudinary.uploader.upload(filename);
+  
+
+          logWithTime(`Upload complete: ${cloudinaryResponse}`);
+          if (cloudinaryResponse.url) {  // Cloudinary upload success
+            await db.insert(fidMapping).values({
+              fid: Number(fid),
+              imageUrl: cloudinaryResponse.url,
+          });
+          logWithTime(`Saved screenshot URL to database for FID:${fid}`);
+        }
+      
+        } catch (uploadError) {
+          logWithTime(`Upload to Cloudinary failed: ${uploadError}`);
+        }
+    }
       console.log('Screenshot completed:');
       return url;
     } catch (error) {
@@ -98,8 +164,9 @@ export async function setupVite(app: Express, server: Server) {
 
       let template = await fs.promises.readFile(clientTemplate, "utf-8");
 
-      taskEmitter.emit('takeScreenshot', { url: req.originalUrl });
-
+      if (req.originalUrl.includes('fid')) {
+        taskEmitter.emit('takeScreenshot', { url: req.originalUrl });
+      }
       // Create the dynamic frame content
       const frameContent = {
         version: "next",
