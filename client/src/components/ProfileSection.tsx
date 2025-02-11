@@ -60,7 +60,7 @@ export default function ProfileSection({
     <Card className="max-w-xl mx-auto bg-white/10 border-none backdrop-blur-sm">
       <CardContent className="p-6">
         <div className="flex flex-col gap-6">
-          <div className="flex items-start gap-4">
+          <div className="flex items-center gap-4">
             {/* Left Column - Rank Emoji and Profile Photo */}
             <div className="flex flex-col gap-4">
               <div className="w-14 h-14 rounded-full bg-gradient-to-br from-primary/30 to-primary/10 flex items-center justify-center relative overflow-hidden animate-glitter">
@@ -75,7 +75,7 @@ export default function ProfileSection({
             </div>
 
             {/* Right Column - Rank Title and User Info */}
-            <div className="flex-1">
+            <div className="flex-1 self-start pt-2">
               <div className="mb-4">
                 <h3 className="text-2xl font-bold text-white">{rankTitle}</h3>
                 <p className="text-sm text-white/80 mt-1">

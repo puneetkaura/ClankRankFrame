@@ -1,4 +1,5 @@
 import express, { type Express } from "express";
+import { EventEmitter } from 'events'; 
 import fs from "fs";
 import path, { dirname } from "path";
 import { fileURLToPath } from "url";
@@ -14,6 +15,44 @@ import { eq } from "drizzle-orm";
 
 const viteLogger = createLogger();
 
+// Create a custom event emitter for tasks
+const taskEmitter = new EventEmitter();
+
+taskEmitter.on('takeScreenshot', async ({ url }: { url: string }) => {
+    try {
+      const pathSegments = url.split('/');
+
+        try {
+          if (pathSegments[1] === "fid" && pathSegments[2]) {
+              const fid = pathSegments[2]; // Extract the fid from the URL
+              console.log(`Extracted fid: ${fid}`);
+          }
+        } catch (error:unknown) {
+            console.error('Error processing URL:', pathSegments.join('/'));
+            return
+        }
+
+      const fidNumber = 4003; // example fid
+      const result = await db.query.fidMapping.findFirst({
+        where: (table) => eq(table.fid, fidNumber)
+      });
+      
+      if (result) {
+        console.log('Found record:', result);
+      } else {
+        console.log('No record found for fid:', fidNumber);
+      }
+      console.log('Screenshot completed:');
+      return url;
+    } catch (error) {
+      console.error('Screenshot failed:', error);
+      // Handle error (retry logic if needed)
+    }
+});
+
+taskEmitter.setMaxListeners(20);
+
+
 export function log(message: string, source = "express") {
   const formattedTime = new Date().toLocaleTimeString("en-US", {
     hour: "numeric",
@@ -24,6 +63,7 @@ export function log(message: string, source = "express") {
 
   console.log(`${formattedTime} [${source}] ${message}`);
 }
+
 
 export async function setupVite(app: Express, server: Server) {
   const vite = await createViteServer({
@@ -57,26 +97,8 @@ export async function setupVite(app: Express, server: Server) {
       );
 
       let template = await fs.promises.readFile(clientTemplate, "utf-8");
-        // Check if the path matches /fid/:fid
-        const pathSegments = req.originalUrl.split('/');
 
-    
-      if (pathSegments[1] === "fid" && pathSegments[2]) {
-        const fid = pathSegments[2]; // Extract the fid from the URL
-        console.log(`Extracted fid: ${fid}`); //
-      }
-
-      const fidNumber = 4003; // example fid
-      const result = await db.query.fidMapping.findFirst({
-        where: (table) => eq(table.fid, fidNumber)
-      });
-      
-      if (result) {
-        console.log('Found record:', result);
-      } else {
-        console.log('No record found for fid:', fidNumber);
-      }
-        
+      taskEmitter.emit('takeScreenshot', { url: req.originalUrl });
 
       // Create the dynamic frame content
       const frameContent = {
