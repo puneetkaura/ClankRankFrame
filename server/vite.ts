@@ -74,7 +74,7 @@ taskEmitter.on('takeScreenshot', async ({ url }: { url: string }) => {
             .blockCookieBanners(true)
             .blockBannersByHeuristics(false)
             .blockTrackers(true)
-            .delay(5)
+            .delay(7)
             .timeout(60)
             .selector('#fid-container')
             .imageQuality(80)
