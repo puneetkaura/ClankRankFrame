@@ -74,11 +74,10 @@ taskEmitter.on('takeScreenshot', async ({ url }: { url: string }) => {
             .blockCookieBanners(true)
             .blockBannersByHeuristics(false)
             .blockTrackers(true)
-            .delay(0)
+            .delay(5)
             .timeout(60)
             .selector('#fid-container')
             .imageQuality(80)
-            .delay(5);
 
         const screenshot_url = client.generateTakeURL(options);
         console.log(screenshot_url);
