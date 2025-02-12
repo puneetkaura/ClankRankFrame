@@ -35,21 +35,20 @@
   animation: shimmer 2s linear infinite;
 }
 
-/* Add this to your CSS file */
+/* Standardized button styling */
+.button {
+  @apply px-4 py-2 rounded-lg font-semibold shadow-md transition-all;
+}
+
+.post-button {
+  @apply bg-purple-500 text-white hover:bg-purple-700;
+}
+
 .share-button {
-  position: fixed;
-  bottom: 20px; /* Adjust as needed */
-  right: 20px; /* Adjust as needed */
-  background-color: #4f3c86; /* Updated to a darker purple color */
-  color: #ffffff; /* Ensure text color is consistent */
-  padding: 12px 24px; /* Adjusted padding for consistency */
-  border-radius: 8px; /* Slightly larger rounded corners */
-  text-decoration: none; /* Remove underline */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Enhanced shadow effect */
-  font-family: 'Poppins', sans-serif; /* Match font family */
-  font-weight: 800;
+  @apply bg-blue-500 text-white hover:bg-blue-700;
+  transition: transform 0.4s ease-in-out;
 }
 
 .share-button:hover {
-  background-color: #4a3a6d; /* Darker shade of purple on hover */
+  transform: scale(1.05);
 }

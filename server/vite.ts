@@ -97,10 +97,10 @@ taskEmitter.on('takeScreenshot', async ({ url }: { url: string }) => {
   
 
           logWithTime(`Upload complete: ${cloudinaryResponse}`);
-          if (cloudinaryResponse.url) {  // Cloudinary upload success
+          if (cloudinaryResponse.secure_url) {  // Cloudinary upload success
             await db.insert(fidMapping).values({
               fid: Number(fid),
-              imageUrl: cloudinaryResponse.url,
+              imageUrl: cloudinaryResponse.secure_url,
           });
           logWithTime(`Saved screenshot URL to database for FID:${fid}`);
         }

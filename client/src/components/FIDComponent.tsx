@@ -53,7 +53,10 @@ export default function FIDComponent({
             tokenCount={tokenCount}
           />
         )}
+        
       </div>
+      
+      
 
       {/* Token Section - takes full width on mobile, 2/3 width on desktop */}
       <div className="md:col-span-2">
@@ -63,6 +66,7 @@ export default function FIDComponent({
           address={verifiedAddress}
         />
       </div>
+      
     </div>
   );
 }

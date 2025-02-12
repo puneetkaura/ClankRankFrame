@@ -6,7 +6,7 @@ import {
   getClankerTokenInfoForAddress,
   fetchUserInfoByFid,
 } from "@/lib/tokenService";
-
+import ButtonGroup from "@/components/ButtonGroup";
 import sdk, { type Context } from "@farcaster/frame-sdk";
 import ShareButton from "@/components/ShareButton";
 
@@ -98,9 +98,7 @@ export default function FidPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#8B5CF6] via-[#6366F1] to-[#10B981] p-4 md:p-8">
       <div className="max-w-7xl mx-auto lg:max-w-[60%] space-y-6">
-        <h1 className="text-3xl md:text-4xl font-bold text-white text-center mb-8">
-          BaseEdge Clanker Rank
-        </h1>
+        
 
         <FIDComponent
           className="fid-container"
@@ -113,7 +111,15 @@ export default function FidPage() {
           }}
         />
       </div>
-      <ShareButton />
+      {activeFid && (
+        <div className="absolute bottom-4 right-4">
+
+          <ButtonGroup fid={activeFid} />
+          <div className="text-right text-gray-300 text-xs secondary-font">
+            By Baseedge. Join waitlist for early access.
+          </div>
+        </div>
+      )}
     </div>
   );
 }
