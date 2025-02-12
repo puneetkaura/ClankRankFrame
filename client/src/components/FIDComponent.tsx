@@ -76,12 +76,12 @@ export default function FIDComponent({
             </div>
           </div>
         </div>
-        <div className="flex items-center mt-4 backdrop-blur-md bg-black/30 p-4">
+        <div className="flex items-center mt-8 backdrop-blur-md bg-black/30 p-4">
           <h1 className="text-6xl secondary-font text-white">
             ⭐️&nbsp;<span>{rankDisplay}</span>
           </h1>
         </div>
-        <div className="flex items-center m-2">
+        <div className="flex items-center mt-8">
           <h1 className="text-4xl text-white">
             HOLDING CLANKER TOKENS
           </h1>
