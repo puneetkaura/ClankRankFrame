@@ -11,9 +11,9 @@ export function getClankerRank(tokenCount: number): { title: string; emoji: stri
   } else if (tokenCount === 2) {
     return { title: "Clanker Maximus", emoji: "⚔️" };
   } else if (tokenCount === 1) {
-    return { title: "Clanker Novis", emoji: "⚒️" };
+    return { title: "Clanker Ascendus", emoji: "⚒️" };
   }
-  return { title: "No Tokens", emoji: "🔍" };
+  return { title: "Clanker Novis", emoji: "🔍" };
 }
 
 export function truncateAddress(address: string): string {
