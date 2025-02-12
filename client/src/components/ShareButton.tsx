@@ -17,7 +17,7 @@ const ShareButton = ({ balances }: ShareButtonProps) => {
     "I AM " + emoji.toUpperCase() + " " + title.toUpperCase() + ". A proud bearer of Clanker tokens, 🔥 forged in the fires of the Base Chain. How mighty is your clank? Unveil your power in the frame below 🔻";
   const additionalURL = window.location.href;
   const shareText = encodeURIComponent(baseText + "\n\n " + additionalURL);
-  const shareURL = `https://warpcast.com/~/compose?text=${shareText}&embeds=`;
+  const shareURL = `https://warpcast.com/~/compose?text=${shareText}&embeds[]=${additionalURL}`;
 
   return (
     <a
