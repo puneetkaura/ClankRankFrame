@@ -61,16 +61,16 @@ export default function FIDComponent({
   // if screenshot is true, return a simpler template that will be used for generating the screenshot
   if (isScreenshot) {
     return (
-      <div id="fid-container" className="aspect-[3/2]">
-        <div className="flex items-center">
+      <div id="fid-container" className="aspect-[3/2] p-2">
+        <div className="flex items-center m-1">
           <img src={userInfo?.pfp_url} alt="Profile" className="w-32 h-32 mr-4 rounded-full" />
           <div className="flex flex-col">
             <div className="flex items-center">
-              <h1 className="text-4xl font-bold text-white">{userInfo?.display_name}</h1>
-              <span className="text-4xl text-white">&nbsp;|&nbsp; </span>
-              <span className="text-4xl font-semibold text-white">{emoji}&nbsp;{title}</span>
+              <h1 className="text-6xl font-bold text-white">{userInfo?.display_name}</h1>
+              <span className="text-6xl text-white">&nbsp;|&nbsp; </span>
+              <span className="text-6xl font-semibold text-white">{emoji}&nbsp;{title}</span>
             </div>
-            <div className="secondary-font text-xs text-white mt-2">
+            <div className="secondary-font text-2xl text-white m-1">
               <span className="font-bold">{userInfo?.following_count}</span> following
               &nbsp;<span className="font-bold">{userInfo?.follower_count}</span> followers
             </div>
@@ -81,7 +81,7 @@ export default function FIDComponent({
             ⭐️&nbsp;<span>{rankDisplay}</span>
           </h1>
         </div>
-        <div className="flex items-center mt-8">
+        <div className="flex items-center m-2">
           <h1 className="text-2xl text-white">
             HOLDING CLANKER TOKENS
           </h1>
