@@ -77,12 +77,12 @@ export default function FIDComponent({
           </div>
         </div>
         <div className="flex items-center mt-4 backdrop-blur-md bg-black/30 p-4">
-          <h1 className="text-2xl secondary-font text-white">
+          <h1 className="text-6xl secondary-font text-white">
             ⭐️&nbsp;<span>{rankDisplay}</span>
           </h1>
         </div>
         <div className="flex items-center m-2">
-          <h1 className="text-2xl text-white">
+          <h1 className="text-4xl text-white">
             HOLDING CLANKER TOKENS
           </h1>
         </div>
@@ -90,7 +90,7 @@ export default function FIDComponent({
           {filteredBalances.map((token) => (
             <div key={token.name} className="flex flex-col items-center">
               <img src={token.img_url} alt={token.name} className="w-32 h-32 rounded-full" />
-              <span className="text-white text-sm mt-1">{token.name.toUpperCase()}</span>
+              <span className="text-white text-2xl mt-1">{token.name.toUpperCase()}</span>
             </div>
           ))}
         </div>
