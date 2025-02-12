@@ -200,12 +200,12 @@ export async function setupVite(app: Express, server: Server) {
         version: "next",
         imageUrl: frameUrl,
         button: {
-          title: "Launch Clank Rank",
+          title: "See your Clank Rank...",
           action: {
             type: "launch_frame",
-            name: "Clank Rank Demo",
-            url: `https://clankrank-baseedge.replit.app${req.originalUrl}`,
-            splashImageUrl: "https://picsum.photos/seed/picsum/200/300",
+            name: "Clanker Ranker by Baseedge",
+            url: `https://clanker-ranker.replit.app${req.originalUrl}`,
+            splashImageUrl: "https://res.cloudinary.com/dnqhpn1ny/image/upload/v1739389371/loading_ex1lqd.gif",
             splashBackgroundColor: "#f7f7f7",
           },
         },

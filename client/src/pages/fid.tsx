@@ -10,15 +10,15 @@ import ButtonGroup from "@/components/ButtonGroup";
 import sdk, { type Context } from "@farcaster/frame-sdk";
 import ShareButton from "@/components/ShareButton";
 
-const appUrl = "https://clankrank-baseedge.replit.app/fid/4003";
+const appUrl = "https://clanker-ranker.replit.app/fid/4003";
 const frame = {
   version: "next",
   imageUrl: `https://picsum.photos/200/300`,
   button: {
-    title: "Calculate Clank Rank",
+    title: "See your Clank Rank...",
     action: {
       type: "launch_frame",
-      name: "Farcaster Frames v2 Demo",
+      name: "Clanker Ranker by Baseedge",
       url: appUrl,
       splashImageUrl: `https://picsum.photos/seed/picsum/200/300`,
       splashBackgroundColor: "#f7f7f7",

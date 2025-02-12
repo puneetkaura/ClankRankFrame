@@ -86,7 +86,7 @@ export default function FIDComponent({
             HOLDING CLANKER TOKENS
           </h1>
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-2">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
           {filteredBalances.map((token) => (
             <div key={token.name} className="flex flex-col items-center">
               <img src={token.img_url} alt={token.name} className="w-32 h-32 rounded-full" />
