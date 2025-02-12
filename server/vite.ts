@@ -36,9 +36,9 @@ taskEmitter.on('takeScreenshot', async ({ url }: { url: string }) => {
     };
     logWithTime(`Starting screenshot task for URL: ${url}`);
     // return
+    let fid = null;
     try {
       const pathSegments = url.split('/');
-      let fid = null;
       try {
           if (pathSegments[1] === "fid" && pathSegments[2]) {
               fid = pathSegments[2]; // Extract the fid from the URL
@@ -54,7 +54,8 @@ taskEmitter.on('takeScreenshot', async ({ url }: { url: string }) => {
           return;
       }
 
-      const fidNumber = 4003; // example fid
+      // const fidNumber = 4003; // example fid
+      const fidNumber = parseInt(fid);  // example fid
       const result = await db.query.fidMapping.findFirst({
         where: (table) => eq(table.fid, fidNumber)
       });
@@ -164,13 +165,40 @@ export async function setupVite(app: Express, server: Server) {
 
       let template = await fs.promises.readFile(clientTemplate, "utf-8");
 
-      if (req.originalUrl.includes('fid')) {
+      const pathSegments =  req.originalUrl.split('/');
+      let fid = null;
+      try {
+          if (pathSegments[1] === "fid" && pathSegments[2]) {
+              fid = pathSegments[2]; // Extract the fid from the URL
+              console.log(`Extracted fid: ${fid}`);          
+          }
+        } catch (error:unknown) {            
+            console.log(`Error processing URL: ${pathSegments.join('/')}`);
+            return
+      }
+        // check if the fid is a number
+      if (isNaN(Number(fid))) {        
+          console.log(`Invalid fid: ${fid}`);
+          return;
+      }
+
+      // const fidNumber = 4003; // example fid
+      const fidNumber = Number(fid); // example fid
+      const result = await db.query.fidMapping.findFirst({
+        where: (table) => eq(table.fid, fidNumber)
+      });
+
+      let frameUrl = null;
+      if (result) {
+        frameUrl = result.imageUrl;
+        console.log(`Found record, NOT GENERATING SCREENSHOT: ${frameUrl}`);
+      } else if (req.originalUrl.includes('fid')) {
         taskEmitter.emit('takeScreenshot', { url: req.originalUrl });
       }
       // Create the dynamic frame content
       const frameContent = {
         version: "next",
-        imageUrl: "https://res.cloudinary.com/dnqhpn1ny/image/upload/v1739269748/screenshot_jyfjyh.jpg",
+        imageUrl: frameUrl,
         button: {
           title: "Launch Clank Rank",
           action: {
