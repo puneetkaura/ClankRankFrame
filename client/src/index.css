@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --border: 220 13% 91%;
+  --background: 0 0% 100%;
+  --foreground: 224 71.4% 4.1%;
+}
+
 @layer base {
   * {
     @apply border-border;

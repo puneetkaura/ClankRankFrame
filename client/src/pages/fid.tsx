@@ -30,6 +30,7 @@ export default function FidPage() {
   const [, params] = useRoute("/fid/:fid");
   const [, setLocation] = useLocation();
   const urlFid = params?.fid ? parseInt(params.fid) : null;
+  const isScreenshot = new URLSearchParams(window.location.search).get('screenshot') === 'true';
 
   // Add Frame SDK state
   const [isSDKLoaded, setIsSDKLoaded] = useState(false);
@@ -105,15 +106,15 @@ export default function FidPage() {
           userInfo={userInfo || null}
           balances={balances || null}
           isLoading={isLoading}
+          isScreenshot={isScreenshot}
           error={{
             userError: Boolean(userError),
             balancesError: Boolean(balancesError),
           }}
         />
       </div>
-      {activeFid && (
+      {activeFid && !isScreenshot && (
         <div className="absolute bottom-4 right-4">
-
           <ButtonGroup fid={activeFid} />
           <div className="text-right text-gray-300 text-xs secondary-font">
             By Baseedge. Join waitlist for early access.

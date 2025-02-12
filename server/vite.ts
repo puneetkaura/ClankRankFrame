@@ -65,7 +65,7 @@ taskEmitter.on('takeScreenshot', async ({ url }: { url: string }) => {
       } else {
         logWithTime(`No record found for fid ${fidNumber}`);
         
-        const targetUrl = `https://clankrank-baseedge.replit.app/fid/${fid}`;
+        const targetUrl = `https://clankrank-baseedge.replit.app/fid/${fid}/?screenshot=true`;
 
         // Set up options using SDK
         const options = screenshotone.TakeOptions.url(targetUrl)
