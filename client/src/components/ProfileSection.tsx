@@ -141,7 +141,7 @@ export default function ProfileSection({
                 {/* Moved Token Count Display */}
                 <p className="secondary-font text-xs text-white/80 mt-1">
                   {tokenCount > 0
-                    ? `Holding ${tokenCount} clanker token${tokenCount !== 1 ? 's' : ''}`
+                    ? `Holding ${tokenCount} top clanker token${tokenCount !== 1 ? 's' : ''}`
                     : "No tokens yet"}
                 </p>
               </div>
