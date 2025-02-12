@@ -206,7 +206,7 @@ export async function setupVite(app: Express, server: Server) {
             name: "Clanker Ranker by Baseedge",
             url: `https://clanker-ranker.replit.app${req.originalUrl}`,
             splashImageUrl: "https://res.cloudinary.com/dnqhpn1ny/image/upload/v1739389371/loading_ex1lqd.gif",
-            splashBackgroundColor: "#f7f7f7",
+            splashBackgroundColor: "#8B5CF6",
           },
         },
       };
