@@ -68,8 +68,11 @@ export default function ProfileSection({
     <>
       {/* New Header Section */}
       <div className="flex items-center justify-center gap-2 mb-4 text-center">
-        <span className="text-4xl">{rankEmoji}</span>
-        <h3 className="text-4xl font-bold text-white">{rankTitle}</h3>
+        <span className="text-3xl sm:text-3xl md:text-4xl lg:text-4xl xl:text-5xl">{rankEmoji}</span>
+        <h3 className="text-3xl sm:text-3xl md:text-4xl lg:text-4xl xl:text-5xl font-bold text-white">
+          {rankTitle}
+        </h3>
+
       </div>
 
       <Card className="max-w-xl mx-auto bg-white/10 border-none backdrop-blur-sm">
