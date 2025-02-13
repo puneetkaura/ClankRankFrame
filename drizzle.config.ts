@@ -6,11 +6,11 @@ export default {
   out: "./drizzle",
   dialect: "postgresql",
   dbCredentials: {
-    host: "ep-quiet-cherry-321060-pooler.ap-southeast-1.aws.neon.tech",
-    user: "puneet.kaura",
-    password: "lu06FQXfyWda",
-    database: "neondb",
-    ssl: true,
+    host: "34.131.165.84",
+    user: "postgres",
+    password: "vx7j=1tf'?1r}+'_",
+    database: "pk_testing",
+    ssl: false,
   },
 } satisfies Config;
 

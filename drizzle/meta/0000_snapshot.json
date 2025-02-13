@@ -1,5 +1,5 @@
 {
-  "id": "e6b9e396-35ec-4e65-bbbb-ba942a9245ab",
+  "id": "bed7d367-0715-4100-9e14-2916e6e9491b",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -38,7 +38,15 @@
       "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
+      "uniqueConstraints": {
+        "fid_mapping_fid_unique": {
+          "name": "fid_mapping_fid_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "fid"
+          ]
+        }
+      },
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": false

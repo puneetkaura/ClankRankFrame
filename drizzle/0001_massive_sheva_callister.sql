@@ -1,1 +1,0 @@
-ALTER TABLE "fid_mapping" ADD CONSTRAINT "fid_mapping_fid_unique" UNIQUE("fid");
