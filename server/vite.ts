@@ -80,14 +80,14 @@ taskEmitter.on('takeScreenshot', async ({ url }: { url: string }) => {
 
       // const fidNumber = 4003; // example fid
       const fidNumber = parseInt(fid);  // example fid
-      const result = await db.query.fidMapping.findFirst({
-        where: (table) => eq(table.fid, fidNumber)
-      });
+      // const result = await db.query.fidMapping.findFirst({
+      //   where: (table) => eq(table.fid, fidNumber)
+      // });
       
-      if (result) {
-        logWithTime(`Found record: ${result}`);        
-      } else {
-        logWithTime(`No record found for fid ${fidNumber}`);
+      // if (result) {
+      //   logWithTime(`Found record: ${result}`);        
+      // } else {
+      //   logWithTime(`No record found for fid ${fidNumber}`);
         
         const targetUrl = `https://clanker-ranker.replit.app/fid/${fid}/?screenshot=true`;
 
@@ -104,6 +104,15 @@ taskEmitter.on('takeScreenshot', async ({ url }: { url: string }) => {
             .imageQuality(80)
 
         const screenshot_url = client.generateTakeURL(options);
+        
+        const check_sc_before = await db.query.fidMapping.findFirst({
+          where: (table) => eq(table.fid, fidNumber)
+        });
+
+        if (check_sc_before) {
+          logWithTime(`AVOIDING SCREENSHOT for fid ${fidNumber}`);        
+          return;
+        } 
         // Download the screenshot
         const imageBlob = await client.take(options);
         const buffer = Buffer.from(await imageBlob.arrayBuffer());
@@ -130,9 +139,9 @@ taskEmitter.on('takeScreenshot', async ({ url }: { url: string }) => {
         } catch (uploadError) {
           logWithTime(`Upload to Cloudinary failed: ${uploadError}`);
         }
-    }
-      logWithTime('Screenshot completed:');
-      return url;
+    
+    logWithTime('Screenshot completed:');
+    return url;
     } catch (error) {
       console.error('Screenshot failed:', error);
       // Handle error (retry logic if needed)
