@@ -29,11 +29,26 @@ const viteLogger = createLogger();
 // Create a custom event emitter for tasks
 const taskEmitter = new EventEmitter();
 
+const logWithTime = (msg: string) => {
+  const time = new Date().toISOString();
+  console.log(`[${time}][EventHandler] ${msg}`);
+};
+
+export function productionLog(message: string, type: 'log' | 'error' | 'info' = 'log') {
+  const timestamp = new Date().toISOString();
+  const logMessage = `[${timestamp}] ${message}`;
+  
+  switch(type) {
+      case 'error':
+          process.stderr.write(logMessage + '\n');
+          break;
+      default:
+          process.stdout.write(logMessage + '\n');
+  }
+}
+
 taskEmitter.on('takeScreenshot', async ({ url }: { url: string }) => {
-    const logWithTime = (msg: string) => {
-      const time = new Date().toISOString();
-      console.log(`[${time}][EventHandler] ${msg}`);
-    };
+ 
     logWithTime(`Starting screenshot task for URL: ${url}`);
     // return
     let fid = null;
@@ -94,9 +109,8 @@ taskEmitter.on('takeScreenshot', async ({ url }: { url: string }) => {
         try {
           const filename = `screenshot_${fid}.jpg`;
           const cloudinaryResponse = await cloudinary.uploader.upload(filename);
-  
+          // const cloudinaryResponse = {secure_url : `testURL${fid}`};
 
-          logWithTime(`Upload complete: ${cloudinaryResponse}`);
           if (cloudinaryResponse.secure_url) {  // Cloudinary upload success
             await db.insert(fidMapping).values({
               fid: Number(fid),
@@ -109,7 +123,7 @@ taskEmitter.on('takeScreenshot', async ({ url }: { url: string }) => {
           logWithTime(`Upload to Cloudinary failed: ${uploadError}`);
         }
     }
-      console.log('Screenshot completed:');
+      logWithTime('Screenshot completed:');
       return url;
     } catch (error) {
       console.error('Screenshot failed:', error);
@@ -150,10 +164,12 @@ export async function setupVite(app: Express, server: Server) {
     appType: "custom",
   });
 
+  app.use("/favicon.ico", express.static(path.join(__dirname, "public", "favicon.ico")));
+  
   app.use(vite.middlewares);
-  app.use("*", async (req, res, next) => {
+  app.use("/fid/:fid", async (req, res, next) => {
     const pageUrl = req.originalUrl;
-    log(`serving ${pageUrl}`);
+    productionLog(`serving ${pageUrl}`);
     let fid = null;
     try {
       const clientTemplate = path.resolve(
@@ -170,15 +186,15 @@ export async function setupVite(app: Express, server: Server) {
       try {
           if (pathSegments[1] === "fid" && pathSegments[2]) {
               fid = pathSegments[2]; // Extract the fid from the URL
-              console.log(`Extracted fid: ${fid}`);          
+              productionLog(`Extracted fid: ${fid}`);          
           }
         } catch (error:unknown) {            
-            console.log(`Error processing URL: ${pathSegments.join('/')}`);
+          productionLog(`Error processing URL: ${pathSegments.join('/')}`);
             return
       }
         // check if the fid is a number
       if (isNaN(Number(fid))) {        
-          console.log(`Invalid fid: ${fid}`);
+        productionLog(`Invalid fid: ${fid}`);
           return;
       }
 
@@ -191,7 +207,7 @@ export async function setupVite(app: Express, server: Server) {
       let frameUrl = null;
       if (result) {
         frameUrl = result.imageUrl;
-        console.log(`Found record, NOT GENERATING SCREENSHOT: ${frameUrl}`);
+        productionLog(`Found record, NOT GENERATING SCREENSHOT: ${frameUrl}`);
       } else if (req.originalUrl.includes('fid')) {
         taskEmitter.emit('takeScreenshot', { url: req.originalUrl });
       }
