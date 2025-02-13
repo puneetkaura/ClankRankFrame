@@ -56,6 +56,7 @@ export function productionLog(message: string, type: 'log' | 'error' | 'info' = 
 productionLog(`Server instance starting: ${instanceId}`);
 
 
+taskEmitter.removeAllListeners('takeScreenshot');
 taskEmitter.on('takeScreenshot', async ({ url }: { url: string }) => {
  
     logWithTime(`Starting screenshot task for URL: ${url}`);
