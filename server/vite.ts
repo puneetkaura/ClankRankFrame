@@ -148,7 +148,7 @@ taskEmitter.on('takeScreenshot', async ({ url }: { url: string }) => {
     }
 });
 
-taskEmitter.setMaxListeners(7);
+taskEmitter.setMaxListeners(2);
 
 
 export function log(message: string, source = "express") {
