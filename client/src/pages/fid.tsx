@@ -114,8 +114,8 @@ export default function FidPage() {
         />
       </div>
       {activeFid && !isScreenshot && (
-        <div className="absolute bottom-4 right-4">
-          <ButtonGroup fid={activeFid} balances={balances || []} />
+        <div className="absolute bottom-4 right-4 flex flex-col space-y-1.5 md:space-y-4">
+          <ButtonGroup fid={activeFid} balances={balances || []} className="float-right" />
           <div className="text-right text-gray-300 text-xs secondary-font">
             By Baseedge. Join waitlist for early access.
           </div>

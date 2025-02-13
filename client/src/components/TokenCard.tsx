@@ -22,23 +22,23 @@ export default function TokenCard({ token }: TokenCardProps) {
   const highestRank = getHighestRank();
 
   return (
-    <a 
+    <a
       href={getDexscreenerUrl(token.address)}
       target="_blank"
       rel="noopener noreferrer"
       className="block transition-transform hover:scale-[1.02] duration-200"
     >
-      <Card className="bg-white/10 border-none backdrop-blur-sm hover:bg-white/20 transition-colors duration-300 h-full">
+      <Card className={`bg-white/10 border-none backdrop-blur-sm transition-colors duration-300 h-full ${highestRank ? 'border-4 border-red-500' : ''}`}>
         <CardHeader className="space-y-3 p-4 text-center">
           {/* Token Image */}
           {token.img_url && (
-            <img 
-              src={token.img_url} 
-              alt={token.name} 
+            <img
+              src={token.img_url}
+              alt={token.name}
               className="w-16 h-16 rounded-full mx-auto"
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
-                target.style.display = 'none';
+                target.style.display = "none";
               }}
             />
           )}
@@ -48,7 +48,7 @@ export default function TokenCard({ token }: TokenCardProps) {
           <div className="flex items-center justify-center space-x-2">
             {/* Highest Rank */}
             {highestRank && (
-              <span className="font-semibold bg-primary text-white text-xs px-2 py-1 rounded-full">
+              <span className="secondary-font bg-teal-500 bg-opacity-80 backdrop-blur-md text-white text-xs px-2 py-1 rounded-full">
                 {highestRank}
               </span>
             )}

@@ -24,10 +24,10 @@ const ShareButton = ({ balances }: ShareButtonProps) => {
       href={shareURL}
       target="_blank"
       rel="noopener noreferrer"
-      className="button share-button flex items-center gap-2"
+      className="button share-button flex items-center gap-2 text-sm whitespace-nowrap"
     >
       <FaShareAlt />
-      Share with frens!
+      Cast it
     </a>
   );
 };
