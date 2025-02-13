@@ -89,13 +89,12 @@ taskEmitter.on('takeScreenshot', async ({ url }: { url: string }) => {
             .blockCookieBanners(true)
             .blockBannersByHeuristics(false)
             .blockTrackers(true)
-            .delay(7)
+            .delay(5)
             .timeout(60)
             .selector('#fid-container')
             .imageQuality(80)
 
         const screenshot_url = client.generateTakeURL(options);
-        // console.log(screenshot_url);
         // Download the screenshot
         const imageBlob = await client.take(options);
         const buffer = Buffer.from(await imageBlob.arrayBuffer());
@@ -131,7 +130,7 @@ taskEmitter.on('takeScreenshot', async ({ url }: { url: string }) => {
     }
 });
 
-taskEmitter.setMaxListeners(1);
+taskEmitter.setMaxListeners(7);
 
 
 export function log(message: string, source = "express") {
