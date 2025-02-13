@@ -80,7 +80,7 @@ taskEmitter.on('takeScreenshot', async ({ url }: { url: string }) => {
             .imageQuality(80)
 
         const screenshot_url = client.generateTakeURL(options);
-        console.log(screenshot_url);
+        // console.log(screenshot_url);
         // Download the screenshot
         const imageBlob = await client.take(options);
         const buffer = Buffer.from(await imageBlob.arrayBuffer());
@@ -117,7 +117,7 @@ taskEmitter.on('takeScreenshot', async ({ url }: { url: string }) => {
     }
 });
 
-taskEmitter.setMaxListeners(20);
+taskEmitter.setMaxListeners(1);
 
 
 export function log(message: string, source = "express") {
