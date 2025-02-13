@@ -34,18 +34,27 @@ const logWithTime = (msg: string) => {
   console.log(`[${time}][EventHandler] ${msg}`);
 };
 
+const instanceId = Math.random().toString(36).substring(7);
+let logCounter = 0;
+
 export function productionLog(message: string, type: 'log' | 'error' | 'info' = 'log') {
+  // const counter = ++logCounter;
   const timestamp = new Date().toISOString();
-  const logMessage = `[${timestamp}] ${message}`;
+  // const logMessage = `[${timestamp}][${instanceId}][${counter}] ${message}\n`;
+  const logMessage = `[${timestamp}][RouteLogger]${message}\n`;
   
-  switch(type) {
-      case 'error':
-          process.stderr.write(logMessage + '\n');
-          break;
-      default:
-          process.stdout.write(logMessage + '\n');
-  }
+  // Stack trace to see where the log is being called from
+  const stack = new Error().stack;
+  const caller = stack?.split('\n')[2] || 'unknown';
+  
+  // const fullMessage = `${logMessage}Caller: ${caller}\n`;
+  const fullMessage = `${logMessage}\n`;
+  
+  process.stdout.write(fullMessage);
 }
+
+productionLog(`Server instance starting: ${instanceId}`);
+
 
 taskEmitter.on('takeScreenshot', async ({ url }: { url: string }) => {
  
@@ -144,6 +153,59 @@ export function log(message: string, source = "express") {
   console.log(`${formattedTime} [${source}] ${message}`);
 }
 
+async function handleFidRequest(fid: string, template: string, isDev = false, vite?: any) {
+  productionLog(`Processing FID: ${fid}`);
+
+  if (isNaN(Number(fid))) {
+      productionLog(`Invalid fid: ${fid}`);
+      throw new Error('Invalid FID');
+  }
+
+  const result = await db.query.fidMapping.findFirst({
+      where: (table) => eq(table.fid, Number(fid))
+  });
+
+  let frameUrl = null;
+  if (result) {
+      frameUrl = result.imageUrl;
+      productionLog(`Found record, NOT GENERATING SCREENSHOT: ${frameUrl}`);
+  } else {
+      taskEmitter.emit('takeScreenshot', { url: `/fid/${fid}` });
+  }
+
+  const frameContent = {
+      version: "next",
+      imageUrl: frameUrl,
+      button: {
+          title: "See your Clank Rank...",
+          action: {
+              type: "launch_frame",
+              name: "Clanker Ranker by Baseedge",
+              url: `https://clanker-ranker.replit.app/fid/${fid}`,
+              splashImageUrl: "https://res.cloudinary.com/dnqhpn1ny/image/upload/v1739389371/loading_ex1lqd.gif",
+              splashBackgroundColor: "#10b981",
+          },
+      },
+  };
+
+  // Replace meta tag
+  let modifiedTemplate = template.replace(
+      /<meta\s+name="fc:frame"[^>]*>/,
+      `<meta name="fc:frame" content='${JSON.stringify(frameContent)}'>`
+  );
+
+  if (isDev) {
+      // Add development-specific modifications
+      modifiedTemplate = modifiedTemplate.replace(
+          `src="/src/main.tsx"`,
+          `src="/src/main.tsx?v=${nanoid()}"`,
+      );
+      return await vite.transformIndexHtml(`/fid/${fid}`, modifiedTemplate);
+  }
+
+  return modifiedTemplate;
+}
+
 
 export async function setupVite(app: Express, server: Server) {
   const vite = await createViteServer({
@@ -179,66 +241,7 @@ export async function setupVite(app: Express, server: Server) {
       );
 
       let template = await fs.promises.readFile(clientTemplate, "utf-8");
-
-      const pathSegments =  req.originalUrl.split('/');
-      let fid = null;
-      try {
-          if (pathSegments[1] === "fid" && pathSegments[2]) {
-              fid = pathSegments[2]; // Extract the fid from the URL
-              productionLog(`Extracted fid: ${fid}`);          
-          }
-        } catch (error:unknown) {            
-          productionLog(`Error processing URL: ${pathSegments.join('/')}`);
-            return
-      }
-        // check if the fid is a number
-      if (isNaN(Number(fid))) {        
-        productionLog(`Invalid fid: ${fid}`);
-          return;
-      }
-
-      // const fidNumber = 4003; // example fid
-      const fidNumber = Number(fid); // example fid
-      const result = await db.query.fidMapping.findFirst({
-        where: (table) => eq(table.fid, fidNumber)
-      });
-
-      let frameUrl = null;
-      if (result) {
-        frameUrl = result.imageUrl;
-        productionLog(`Found record, NOT GENERATING SCREENSHOT: ${frameUrl}`);
-      } else if (req.originalUrl.includes('fid')) {
-        taskEmitter.emit('takeScreenshot', { url: req.originalUrl });
-      }
-      // Create the dynamic frame content
-      const frameContent = {
-        version: "next",
-        imageUrl: frameUrl,
-        button: {
-          title: "See your Clank Rank...",
-          action: {
-            type: "launch_frame",
-            name: "Clanker Ranker by Baseedge",
-            url: `https://clanker-ranker.replit.app${req.originalUrl}`,
-            splashImageUrl: "https://res.cloudinary.com/dnqhpn1ny/image/upload/v1739389371/loading_ex1lqd.gif",
-            splashBackgroundColor: "#10b981",
-          },
-        },
-      };
-      // log(JSON.stringify(frameContent));
-      // Replace the fc:frame meta tag
-      template = template.replace(
-        /<meta\s+name="fc:frame"[^>]*>/,
-        `<meta name="fc:frame" content='${JSON.stringify(frameContent)}'>`,
-      );
-
-      // Add cache busting for main.tsx
-      template = template.replace(
-        `src="/src/main.tsx"`,
-        `src="/src/main.tsx?v=${nanoid()}"`,
-      );
-
-      const page = await vite.transformIndexHtml(req.originalUrl, template);
+      const page = await handleFidRequest(req.params.fid, template, true, vite);
       res.status(200).set({ "Content-Type": "text/html" }).end(page);
     } catch (e) {
       vite.ssrFixStacktrace(e as Error);
@@ -251,17 +254,27 @@ export function serveStatic(app: Express) {
   const distPath = path.resolve(__dirname, "public");
 
   if (!fs.existsSync(distPath)) {
-    throw new Error(
-      `Could not find the build directory: ${distPath}, make sure to build the client first`,
-    );
+      throw new Error(`Could not find the build directory: ${distPath}`);
   }
 
   app.use(express.static(distPath));
 
-  // fall through to index.html if the file doesn't exist
-  app.use("*", (req, res) => {
-    const currentUrl = `${req.originalUrl}`;
-    log(currentUrl);
-    res.sendFile(path.resolve(distPath, "index.html"));
+  app.get("/fid/:fid", async (req, res) => {
+      try {
+          const template = await fs.promises.readFile(
+              path.resolve(distPath, "index.html"),
+              "utf-8"
+          );
+
+          const page = await handleFidRequest(req.params.fid, template, false);
+          res.status(200).set({ "Content-Type": "text/html" }).send(page);
+      } catch (error) {
+          productionLog(`Error processing FID: ${error}`, 'error');
+          res.status(500).send(error.message);
+      }
+  });
+
+  app.get("/", (req, res) => {
+      res.sendFile(path.resolve(distPath, "index.html"));
   });
 }
