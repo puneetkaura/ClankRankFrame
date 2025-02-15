@@ -34,7 +34,7 @@ export default function PostButton({ fid }: Props) {
 
   return (
     <button
-      className="button post-button flex items-center gap-2"
+      className="button post-button flex items-center gap-2 text-sm whitespace-nowrap"
       onClick={handleClick}
       disabled={isLoading || hasJoined}
     >
